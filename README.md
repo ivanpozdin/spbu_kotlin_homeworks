@@ -1,2 +1,3 @@
 # spbu_kotlin_homeworks
-Repository for university homeworks and tests
+Репозиторий Ивана Поздина из группы 144(21-Б10) для домашних и контрольных работ курса по Kotlin.
+
