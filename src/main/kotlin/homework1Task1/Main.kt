@@ -1,25 +1,19 @@
-package homework1_task1
-//Решето Эратосфена
+package homework1Task1
 
 fun printAllPrimeNumsUpTo(num: Int) {
-    if (num < 0){
+    if (num < 0) {
         println("Wrong argument.")
         return
     }
     val isPrime = BooleanArray(num + 1)
-    for (i in 0..num)
-        isPrime[i] = true
+    for (i in 0..num) isPrime[i] = true
 
     isPrime[0] = false
     isPrime[1] = false
 
-    for (i in 0..num)
-        if (isPrime[i])
-            for (j in (2 * i)..num step (i))
-                isPrime[j] = false
+    for (i in 0..num) if (isPrime[i]) for (j in (2 * i)..num step (i)) isPrime[j] = false
     println("Prime numbers up to $num:")
-    for (i in 0..num)
-        if (isPrime[i]) println(i)
+    for (i in 0..num) if (isPrime[i]) println(i)
 }
 
 fun main() {
