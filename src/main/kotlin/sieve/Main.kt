@@ -1,4 +1,4 @@
-package sieveOfEratosthenes
+package sieve
 
 fun printAllPrimeNumsUpTo(num: Int) {
     if (num < 0) {
