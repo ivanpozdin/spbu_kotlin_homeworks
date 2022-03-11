@@ -1,4 +1,4 @@
-package hw1task2
+package sieve
 
 fun printAllPrimeNumsUpTo(num: Int) {
     if (num < 0) {
