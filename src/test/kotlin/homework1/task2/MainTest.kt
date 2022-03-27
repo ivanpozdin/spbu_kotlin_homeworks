@@ -15,10 +15,10 @@ internal class MainTest {
     companion object {
         @JvmStatic
         fun getPrimesInputData() = listOf(
-                Arguments.of(mutableListOf(2, 3, 5, 7), 10),
-                Arguments.of(mutableListOf(2, 3, 5, 7, 11, 13, 17, 19, 23), 23),
-                Arguments.of(mutableListOf<Int>(), 0),
-                Arguments.of(mutableListOf<Int>(), -500)
+            Arguments.of(mutableListOf(2, 3, 5, 7), 10),
+            Arguments.of(mutableListOf(2, 3, 5, 7, 11, 13, 17, 19, 23), 23),
+            Arguments.of(mutableListOf<Int>(), 0),
+            Arguments.of(mutableListOf<Int>(), -500)
         )
     }
 }
