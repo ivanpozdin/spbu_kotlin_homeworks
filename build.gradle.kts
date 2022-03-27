@@ -1,6 +1,7 @@
 plugins {
     kotlin("jvm") version "1.5.0"
     id("io.gitlab.arturbosch.detekt") version "1.19.0"
+    id("org.ajoberstar.organize-imports") version "1.0.3"
 }
 group = "org.example"
 version = "1.0-SNAPSHOT"
