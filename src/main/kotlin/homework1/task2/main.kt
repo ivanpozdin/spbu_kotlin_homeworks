@@ -1,4 +1,4 @@
-package homework_1.task_2
+package homework1.task2
 
 fun getPrimesUpTo(num: Int): MutableList<Int> {
     val primes: MutableList<Int> = mutableListOf()

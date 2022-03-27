@@ -1,4 +1,5 @@
-import homework_1.task_2.getPrimesUpTo
+package homework1.task2
+
 import org.junit.jupiter.api.Assertions.assertEquals
 
 
