@@ -24,6 +24,3 @@ fun main() {
         for (primeNumber in primesArray) println(primeNumber)
     }
 }
-
-
-
