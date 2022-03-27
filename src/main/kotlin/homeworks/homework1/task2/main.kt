@@ -1,4 +1,4 @@
-package homework1.task2
+package homeworks.homework1.task2
 
 fun getPrimesUpTo(num: Int): MutableList<Int> {
     val primes: MutableList<Int> = mutableListOf()
@@ -24,3 +24,6 @@ fun main() {
         for (primeNumber in primesArray) println(primeNumber)
     }
 }
+
+
+
