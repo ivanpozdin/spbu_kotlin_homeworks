@@ -1,4 +1,4 @@
-package sieve
+package homework_1.task_2
 
 fun getPrimesUpTo(num: Int): MutableList<Int> {
     val primes: MutableList<Int> = mutableListOf()
@@ -7,11 +7,10 @@ fun getPrimesUpTo(num: Int): MutableList<Int> {
     val isPrime = BooleanArray(num + 1)
     for (i in 2..num) isPrime[i] = true
 
-    for (i in 0..num)
-        if (isPrime[i]) {
-            primes.add(i)
-            for (j in (2 * i)..num step (i)) isPrime[j] = false
-        }
+    for (i in 0..num) if (isPrime[i]) {
+        primes.add(i)
+        for (j in (2 * i)..num step (i)) isPrime[j] = false
+    }
     return primes
 }
 
