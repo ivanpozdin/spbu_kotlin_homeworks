@@ -18,13 +18,10 @@ fun getPrimesUpTo(num: Int): MutableList<Int> {
 }
 
 fun main() {
-    var num = -1
-    while (num < 0) {
-        print("Enter a natural number up to which to output all prime numbers: ")
-        num = readLine()?.toIntOrNull() ?: -1
-        if (num < 0) {
-            println("You can only write a whole non-negative number")
-        }
+    print("Enter a natural number up to which to output all prime numbers: ")
+    val num = readLine()?.toIntOrNull() ?: run {
+        println("Oops, you entered not a whole number")
+        return
     }
     val primesArray = getPrimesUpTo(num)
     println("Prime numbers up to $num:")
