@@ -1,11 +1,9 @@
 package homeworks.homework1.task2
 
-
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
-
 
 internal class MainTest {
     @ParameterizedTest(name = "case {index}")
