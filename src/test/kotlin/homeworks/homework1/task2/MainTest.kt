@@ -1,7 +1,5 @@
 package homeworks.homework1.task2
 
-import assertk.assertThat
-import assertk.assertions.isEqualTo
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
@@ -27,8 +25,7 @@ internal class MainTest {
 
     @Test
     fun negativeNumberTest() {
-        assertFailsWith<IllegalArgumentException> { getPrimesUpTo(-500) }
         val exception = assertFailsWith<IllegalArgumentException> { getPrimesUpTo(-500) }
-        assertThat(exception.message).isEqualTo("Number must be non-negative")
+        assertEquals("Number must be non-negative", exception.message)
     }
 }
