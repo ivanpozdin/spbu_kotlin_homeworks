@@ -11,9 +11,7 @@ fun getPrimesUpTo(num: Int): MutableList<Int> {
     for (i in 2..num) {
         if (isPrime[i]) {
             primes.add(i)
-            for (j in (2 * i)..num step i) {
-                isPrime[j] = false
-            }
+            ((2 * i)..num step i).forEach { isPrime[it] = false }
         }
     }
     return primes
@@ -26,6 +24,10 @@ fun main() {
         return
     }
     val primesArray = getPrimesUpTo(num)
-    println("Prime numbers up to $num:")
-    print(primesArray.joinToString("\n"))
+    if (primesArray.isEmpty()) {
+        print("There are not any prime numbers up to $num")
+    } else {
+        println("Prime numbers up to $num:")
+        print(primesArray.joinToString("\n"))
+    }
 }

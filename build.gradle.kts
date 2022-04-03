@@ -15,6 +15,7 @@ dependencies {
     testImplementation(platform("org.junit:junit-bom:5.8.2"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation(kotlin("test"))
+    testImplementation("com.willowtreeapps.assertk:assertk-jvm:0.25")
 }
 tasks.test {
     useJUnitPlatform()
