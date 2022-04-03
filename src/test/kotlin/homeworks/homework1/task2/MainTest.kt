@@ -9,7 +9,6 @@ import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import kotlin.test.assertFailsWith
 
-
 internal class MainTest {
     @ParameterizedTest(name = "case {index}")
     @MethodSource("getPrimesInputData")
