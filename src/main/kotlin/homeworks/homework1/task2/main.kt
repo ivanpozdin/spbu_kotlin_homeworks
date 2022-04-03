@@ -10,7 +10,7 @@ fun getPrimesUpTo(num: Int): MutableList<Int> {
 
     for (i in 2..num) if (isPrime[i]) {
         primes.add(i)
-        for (j in (2 * i)..num step (i)) {
+        for (j in (2 * i)..num step i) {
             isPrime[j] = false
         }
     }
