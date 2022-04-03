@@ -7,35 +7,65 @@ fun main() {
             "\n2: вставить элемент x в конец списка, \n3: переместить элемент" +
             " с i на j позицию, \n4: отменить последнее действие"
     )
-
     val performedCommandStorage = PerformedCommandStorage()
     var command = 5
     while (command != 0) {
         print("Введите номер комманды: ")
-        command = readLine()?.toIntOrNull() ?: 0
+        command = readLine()?.toIntOrNull() ?: -1
         when (command) {
             1 -> {
-                print("Введите число, которое нужно добавить в начало списка: ")
-                val x: Int = readLine()?.toIntOrNull() ?: 0
-                performedCommandStorage.insetElementInTheBeginningOfList(x)
-                print(performedCommandStorage.listOfNumbers.joinToString(", ", "", "\n"))
+                var x: Int? = null
+                while (x == null) {
+                    print("Введите число, которое нужно добавить в начало списка: ")
+                    x = readLine()?.toIntOrNull() ?: run {
+                        println("   Неверный аргумент, попробуйте ещё раз")
+                        null
+                    }
+                }
+                performedCommandStorage.insertInBeginning(x)
+                performedCommandStorage.printListOfNumbers()
+
             }
             2 -> {
-                print("Введите число, которое нужно добавить в конец списка: ")
-                val x: Int = readLine()?.toIntOrNull() ?: 0
-                performedCommandStorage.insetElementInTheEndOfList(x)
-                print(performedCommandStorage.listOfNumbers.joinToString(", ", "", "\n"))
+
+                var x: Int? = null
+                while (x == null) {
+                    print("Введите число, которое нужно добавить в конец списка: ")
+                    x = readLine()?.toIntOrNull() ?: run {
+                        println("   Неверный аргумент, попробуйте ещё раз")
+                        null
+                    }
+                }
+                performedCommandStorage.insertInEnd(x)
+                performedCommandStorage.printListOfNumbers()
             }
             3 -> {
-                print("Введите 2 индекса (перемещение числа с 1ой позиции на 2ю: ")
-                val i: Int = readLine()?.toIntOrNull() ?: 0
-                val j: Int = readLine()?.toIntOrNull() ?: 0
-                performedCommandStorage.moveAnElement(i, j)
-                print(performedCommandStorage.listOfNumbers.joinToString(", ", "", "\n"))
+                var i: Int? = null
+                while (i == null) {
+                    print("Введите индекс элемента, который нужно переместить: ")
+                    i = readLine()?.toIntOrNull() ?: run {
+                        println("   Неверный аргумент, попробуйте ещё раз")
+                        null
+                    }
+                }
+                var j: Int? = null
+                while (j == null) {
+                    print("Введите индекс на который нужно переместить: ")
+                    j = readLine()?.toIntOrNull() ?: run {
+                        println("   Неверный аргумент, попробуйте ещё раз")
+                        null
+                    }
+                }
+                try {
+                    performedCommandStorage.moveFromTo(i, j)
+                } catch (e: IllegalArgumentException) {
+                    println(e.message)
+                }
+                performedCommandStorage.printListOfNumbers()
             }
             4 -> {
                 performedCommandStorage.cancelLastAction()
-                print(performedCommandStorage.listOfNumbers.joinToString(", ", "", "\n"))
+                performedCommandStorage.printListOfNumbers()
             }
 
             0 -> {
@@ -47,5 +77,3 @@ fun main() {
         }
     }
 }
-
-
