@@ -1,25 +1,24 @@
 package homeworks.homework1.task3
 
-const val quitProgram = 0
-const val cancelingLastAction = 4
-const val notDefinedCommand = 5
+const val QUIT_PROGRAM = 0
+const val CANCEL_LAST_ACTION = 4
+const val NOT_DEFINED_COMMAND = 5
 
 fun main() {
-    println(
-        """Есть 5 комманд:
-0: остановить ввод
-1: вставить элемент x в начало списка, 
-2: вставить элемент x в конец списка, 
-3: переместить элемент с i на j позицию, 
-4: отменить последнее действие"""
-    )
+    println("Есть 5 комманд:")
+    println("0: остановить ввод")
+    println("1: вставить элемент x в начало списка,")
+    println("2: вставить элемент x в конец списка,")
+    println("3: переместить элемент с i на j позицию,")
+    println("4: отменить последнее действие")
+
     val performedCommandStorage = PerformedCommandStorage()
-    var command = notDefinedCommand
-    while (command != quitProgram) {
+    var command = NOT_DEFINED_COMMAND
+    while (command != QUIT_PROGRAM) {
         print("Введите номер комманды: ")
         command = readLine()?.toIntOrNull() ?: -1
         when (command) {
-            insertionInBeginning -> {
+            INSERTION_IN_BEGINNING -> {
                 var x: Int? = null
                 while (x == null) {
                     print("Введите число, которое нужно добавить в начало списка: ")
@@ -31,7 +30,7 @@ fun main() {
                 performedCommandStorage.insertInBeginning(x)
                 print(performedCommandStorage.getListOfNumbers().joinToString(", ", "[", "]\n"))
             }
-            insertionInEnd -> {
+            INSERTION_IN_END -> {
 
                 var x: Int? = null
                 while (x == null) {
@@ -44,7 +43,7 @@ fun main() {
                 performedCommandStorage.insertInEnd(x)
                 print(performedCommandStorage.getListOfNumbers().joinToString(", ", "[", "]\n"))
             }
-            movingFromTo -> {
+            MOVING_FROM_TO -> {
                 var i: Int? = null
                 while (i == null) {
                     print("Введите индекс элемента, который нужно переместить: ")
@@ -68,7 +67,7 @@ fun main() {
                 }
                 print(performedCommandStorage.getListOfNumbers().joinToString(", ", "[", "]\n"))
             }
-            cancelingLastAction -> {
+            CANCEL_LAST_ACTION -> {
                 try {
                     performedCommandStorage.cancelLastAction()
                 } catch (e: IllegalArgumentException) {
@@ -76,7 +75,7 @@ fun main() {
                 }
                 print(performedCommandStorage.getListOfNumbers().joinToString(", ", "[", "]\n"))
             }
-            quitProgram -> {
+            QUIT_PROGRAM -> {
                 println("Завершение работы")
             }
             else -> {
