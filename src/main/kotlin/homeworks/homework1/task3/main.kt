@@ -29,7 +29,7 @@ fun main() {
                     }
                 }
                 performedCommandStorage.insertInBeginning(x)
-                performedCommandStorage.printListOfNumbers()
+                print(performedCommandStorage.getListOfNumbers().joinToString(", ", "[", "]\n"))
 
             }
             insertionInEnd -> {
@@ -43,7 +43,7 @@ fun main() {
                     }
                 }
                 performedCommandStorage.insertInEnd(x)
-                performedCommandStorage.printListOfNumbers()
+                print(performedCommandStorage.getListOfNumbers().joinToString(", ", "[", "]\n"))
             }
             movingFromTo -> {
                 var i: Int? = null
@@ -67,7 +67,7 @@ fun main() {
                 } catch (e: IllegalArgumentException) {
                     println(e.message)
                 }
-                performedCommandStorage.printListOfNumbers()
+                print(performedCommandStorage.getListOfNumbers().joinToString(", ", "[", "]\n"))
             }
             cancelingLastAction -> {
                 try {
@@ -75,9 +75,8 @@ fun main() {
                 } catch (e: IllegalArgumentException) {
                     println(e.message)
                 }
-                performedCommandStorage.printListOfNumbers()
+                print(performedCommandStorage.getListOfNumbers().joinToString(", ", "[", "]\n"))
             }
-
             quitProgram -> {
                 println("Завершение работы")
             }

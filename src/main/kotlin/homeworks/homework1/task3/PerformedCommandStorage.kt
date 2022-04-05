@@ -46,8 +46,7 @@ class PerformedCommandStorage {
         }
     }
 
-    fun printListOfNumbers() {
-
-        print(listOfNumbers.joinToString(", ", "[", "]\n"))
+    fun getListOfNumbers(): List<Int> {
+        return listOfNumbers
     }
 }
