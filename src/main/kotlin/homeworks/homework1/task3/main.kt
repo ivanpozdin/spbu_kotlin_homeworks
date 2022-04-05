@@ -4,7 +4,7 @@ const val QUIT_PROGRAM = 0
 const val CANCEL_LAST_ACTION = 4
 const val NOT_DEFINED_COMMAND = 5
 
-fun insertInBeginning(performedCommandStorage: PerformedCommandStorage) {
+fun processInsertionInBeginning(performedCommandStorage: PerformedCommandStorage) {
     var x: Int? = null
     while (x == null) {
         print("Введите число, которое нужно добавить в конец списка: ")
@@ -17,7 +17,7 @@ fun insertInBeginning(performedCommandStorage: PerformedCommandStorage) {
     print(performedCommandStorage.getListOfNumbers().joinToString(", ", "[", "]\n"))
 }
 
-fun insertInEnd(performedCommandStorage: PerformedCommandStorage) {
+fun processInsertionInEnd(performedCommandStorage: PerformedCommandStorage) {
     var x: Int? = null
     while (x == null) {
         print("Введите число, которое нужно добавить в конец списка: ")
@@ -30,7 +30,7 @@ fun insertInEnd(performedCommandStorage: PerformedCommandStorage) {
     print(performedCommandStorage.getListOfNumbers().joinToString(", ", "[", "]\n"))
 }
 
-fun moveFromTo(performedCommandStorage: PerformedCommandStorage) {
+fun processMovingFromTo(performedCommandStorage: PerformedCommandStorage) {
     var i: Int? = null
     while (i == null) {
         print("Введите индекс элемента, который нужно переместить: ")
@@ -55,7 +55,7 @@ fun moveFromTo(performedCommandStorage: PerformedCommandStorage) {
     print(performedCommandStorage.getListOfNumbers().joinToString(", ", "[", "]\n"))
 }
 
-fun cancelLastAction(performedCommandStorage: PerformedCommandStorage) {
+fun processCancelingLastAction(performedCommandStorage: PerformedCommandStorage) {
     try {
         performedCommandStorage.cancelLastAction()
     } catch (e: IllegalArgumentException) {
@@ -81,16 +81,16 @@ fun processCommands() {
         command = readLine()?.toIntOrNull() ?: -1
         when (command) {
             INSERTION_IN_BEGINNING -> {
-                insertInBeginning(performedCommandStorage)
+                processInsertionInBeginning(performedCommandStorage)
             }
             INSERTION_IN_END -> {
-                insertInEnd(performedCommandStorage)
+                processInsertionInEnd(performedCommandStorage)
             }
             MOVING_FROM_TO -> {
-                moveFromTo(performedCommandStorage)
+                processMovingFromTo(performedCommandStorage)
             }
             CANCEL_LAST_ACTION -> {
-                cancelLastAction(performedCommandStorage)
+                processCancelingLastAction(performedCommandStorage)
             }
             QUIT_PROGRAM -> {
                 println("Завершение работы")
