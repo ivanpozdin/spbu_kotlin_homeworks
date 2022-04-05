@@ -1,19 +1,19 @@
 package homeworks.homework1.task3
 
+val performedCommandStorage = PerformedCommandStorage()
+const val quitProgram = 0
+const val cancelingLastAction = 4
+const val notDefinedCommand = 5
+
 fun main() {
     println(
-        "Есть 5 комманд:" +
-            "\n0: остановить ввод" + "\n1: вставить элемент x в начало списка, " +
-            "\n2: вставить элемент x в конец списка, \n3: переместить элемент" +
-            " с i на j позицию, \n4: отменить последнее действие"
+        """Есть 5 комманд:
+0: остановить ввод
+1: вставить элемент x в начало списка, 
+2: вставить элемент x в конец списка, 
+3: переместить элемент с i на j позицию, 
+4: отменить последнее действие"""
     )
-    val performedCommandStorage = PerformedCommandStorage()
-    val quitProgram = 0
-    val insertionInBeginning = 1
-    val insertionInEnd = 2
-    val movingFromTo = 3
-    val cancelingLastAction = 4
-    val notDefinedCommand = 5
     var command = notDefinedCommand
     while (command != quitProgram) {
         print("Введите номер комманды: ")
@@ -30,7 +30,6 @@ fun main() {
                 }
                 performedCommandStorage.insertInBeginning(x)
                 print(performedCommandStorage.getListOfNumbers().joinToString(", ", "[", "]\n"))
-
             }
             insertionInEnd -> {
 
