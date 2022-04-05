@@ -1,6 +1,5 @@
 package homeworks.homework1.task3
 
-val performedCommandStorage = PerformedCommandStorage()
 const val quitProgram = 0
 const val cancelingLastAction = 4
 const val notDefinedCommand = 5
@@ -14,6 +13,7 @@ fun main() {
 3: переместить элемент с i на j позицию, 
 4: отменить последнее действие"""
     )
+    val performedCommandStorage = PerformedCommandStorage()
     var command = notDefinedCommand
     while (command != quitProgram) {
         print("Введите номер комманды: ")

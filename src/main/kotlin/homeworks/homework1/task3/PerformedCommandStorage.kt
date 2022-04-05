@@ -2,15 +2,18 @@ package homeworks.homework1.task3
 
 import java.util.Stack
 
+const val insertionInBeginning = 1
+const val insertionInEnd = 2
+const val movingFromTo = 3
+const val meaninglessValue = 0
+const val startIndex = 0
+
 class PerformedCommandStorage {
     private var listOfNumbers: MutableList<Int> = mutableListOf()
-    private val insertionInBeginning = 1
-    private val insertionInEnd = 2
-    private val movingFromTo = 3
-    private val meaninglessValue = 0
+
     private var performedCommands: Stack<Triple<Int, Int, Int>> = Stack()
     fun insertInBeginning(x: Int) {
-        listOfNumbers.add(0, x)
+        listOfNumbers.add(startIndex, x)
         performedCommands.push(Triple(insertionInBeginning, meaninglessValue, meaninglessValue))
     }
 
