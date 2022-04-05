@@ -7,15 +7,16 @@ class PerformedCommandStorage {
     private val insertionInBeginning = 1
     private val insertionInEnd = 2
     private val movingFromTo = 3
+    private val meaninglessValue = 0
     private var performedCommands: Stack<Triple<Int, Int, Int>> = Stack()
     fun insertInBeginning(x: Int) {
         listOfNumbers.add(0, x)
-        performedCommands.push(Triple(insertionInBeginning, -1, -1))
+        performedCommands.push(Triple(insertionInBeginning, meaninglessValue, meaninglessValue))
     }
 
     fun insertInEnd(x: Int) {
         listOfNumbers.add(x)
-        performedCommands.push(Triple(insertionInEnd, -1, -1))
+        performedCommands.push(Triple(insertionInEnd, meaninglessValue, meaninglessValue))
     }
 
     fun moveFromTo(i: Int, j: Int) {
@@ -23,9 +24,7 @@ class PerformedCommandStorage {
             "Indices are not valid"
         }
         val temp = listOfNumbers[i]
-        for (k in i until j) {
-            listOfNumbers[k] = listOfNumbers[k + 1]
-        }
+        (i until j).forEach { listOfNumbers[it] = listOfNumbers[it + 1] }
         listOfNumbers[j] = temp
         performedCommands.push(Triple(movingFromTo, i, j))
     }
@@ -34,13 +33,11 @@ class PerformedCommandStorage {
         require(!performedCommands.isEmpty()) { "There was not last action" }
         val (command, i, j) = performedCommands.pop()
         when (command) {
-            1 -> listOfNumbers.removeAt(0)
-            2 -> listOfNumbers.removeAt(listOfNumbers.lastIndex)
-            3 -> run {
+            insertionInBeginning -> listOfNumbers.removeAt(0)
+            insertionInEnd -> listOfNumbers.removeAt(listOfNumbers.lastIndex)
+            movingFromTo -> run {
                 val temp = listOfNumbers[j]
-                for (k in j downTo i + 1) {
-                    listOfNumbers[k] = listOfNumbers[k - 1]
-                }
+                (j downTo i + 1).forEach { listOfNumbers[it] = listOfNumbers[it - 1] }
                 listOfNumbers[i] = temp
             }
             else -> run {
@@ -50,6 +47,7 @@ class PerformedCommandStorage {
     }
 
     fun printListOfNumbers() {
+
         print(listOfNumbers.joinToString(", ", "[", "]\n"))
     }
 }

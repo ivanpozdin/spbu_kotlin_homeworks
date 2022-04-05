@@ -8,12 +8,18 @@ fun main() {
             " с i на j позицию, \n4: отменить последнее действие"
     )
     val performedCommandStorage = PerformedCommandStorage()
-    var command = 5
-    while (command != 0) {
+    val quitProgram = 0
+    val insertionInBeginning = 1
+    val insertionInEnd = 2
+    val movingFromTo = 3
+    val cancelingLastAction = 4
+    val notDefinedCommand = 5
+    var command = notDefinedCommand
+    while (command != quitProgram) {
         print("Введите номер комманды: ")
         command = readLine()?.toIntOrNull() ?: -1
         when (command) {
-            1 -> {
+            insertionInBeginning -> {
                 var x: Int? = null
                 while (x == null) {
                     print("Введите число, которое нужно добавить в начало списка: ")
@@ -26,7 +32,7 @@ fun main() {
                 performedCommandStorage.printListOfNumbers()
 
             }
-            2 -> {
+            insertionInEnd -> {
 
                 var x: Int? = null
                 while (x == null) {
@@ -39,7 +45,7 @@ fun main() {
                 performedCommandStorage.insertInEnd(x)
                 performedCommandStorage.printListOfNumbers()
             }
-            3 -> {
+            movingFromTo -> {
                 var i: Int? = null
                 while (i == null) {
                     print("Введите индекс элемента, который нужно переместить: ")
@@ -63,12 +69,16 @@ fun main() {
                 }
                 performedCommandStorage.printListOfNumbers()
             }
-            4 -> {
-                performedCommandStorage.cancelLastAction()
+            cancelingLastAction -> {
+                try {
+                    performedCommandStorage.cancelLastAction()
+                } catch (e: IllegalArgumentException) {
+                    println(e.message)
+                }
                 performedCommandStorage.printListOfNumbers()
             }
 
-            0 -> {
+            quitProgram -> {
                 println("Завершение работы")
             }
             else -> {
