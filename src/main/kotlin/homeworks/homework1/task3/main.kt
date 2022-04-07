@@ -1,6 +1,6 @@
 package homeworks.homework1.task3
 
-enum class Command {
+enum class TypeOfAction {
     STOP_ENTERING_COMMANDS,
     INSERTION_IN_BEGINNING,
     INSERTION_IN_END,
@@ -66,27 +66,27 @@ fun printRules() {
 
 fun processCommands() {
     val performedCommandStorage = PerformedCommandStorage()
-    var command = Command.NOT_DEFINED_COMMAND.ordinal
-    while (command != Command.STOP_ENTERING_COMMANDS.ordinal) {
+    var command = TypeOfAction.NOT_DEFINED_COMMAND.ordinal
+    while (command != TypeOfAction.STOP_ENTERING_COMMANDS.ordinal) {
         print("Введите номер комманды: ")
         command = readLine()?.toIntOrNull() ?: -1
         when (command) {
-            Command.INSERTION_IN_BEGINNING.ordinal -> {
+            TypeOfAction.INSERTION_IN_BEGINNING.ordinal -> {
                 processInsertionInBeginning(performedCommandStorage)
             }
-            Command.INSERTION_IN_END.ordinal -> {
+            TypeOfAction.INSERTION_IN_END.ordinal -> {
                 processInsertionInEnd(performedCommandStorage)
             }
-            Command.MOVING_FROM_TO.ordinal -> {
+            TypeOfAction.MOVING_FROM_TO.ordinal -> {
                 processMovingFromTo(performedCommandStorage)
             }
-            Command.CANCEL_LAST_ACTION.ordinal -> {
+            TypeOfAction.CANCEL_LAST_ACTION.ordinal -> {
                 processCancelingLastAction(performedCommandStorage)
             }
-            Command.PRINT_LIST.ordinal -> {
+            TypeOfAction.PRINT_LIST.ordinal -> {
                 processPrintingList(performedCommandStorage)
             }
-            Command.STOP_ENTERING_COMMANDS.ordinal -> {
+            TypeOfAction.STOP_ENTERING_COMMANDS.ordinal -> {
                 println("Завершение работы")
             }
             else -> {
