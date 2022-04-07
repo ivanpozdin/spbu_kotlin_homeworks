@@ -1,6 +1,6 @@
 package homeworks.homework1.task3
 
-enum class Command{
+enum class Command {
     QUIT_PROGRAM,
     INSERTION_IN_BEGINNING,
     INSERTION_IN_END,
