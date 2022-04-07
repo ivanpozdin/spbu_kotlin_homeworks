@@ -1,17 +1,17 @@
 package homeworks.homework1.task3
 
-import java.util.Stack
+import java.util.*
 
 const val INSERTION_IN_BEGINNING = 1
 const val INSERTION_IN_END = 2
 const val MOVING_FROM_TO = 3
-const val MEANINGLESS_VALUE = 0
+const val MEANINGLESS_VALUE = -1
 const val START_INDEX = 0
 
 class PerformedCommandStorage {
-    private var listOfNumbers: MutableList<Int> = mutableListOf()
+    private val listOfNumbers: MutableList<Int> = mutableListOf()
 
-    private var performedCommands: Stack<Triple<Int, Int, Int>> = Stack()
+    private var performedCommands: ArrayDeque<Triple<Int, Int, Int>> = ArrayDeque()
     fun insertInBeginning(x: Int) {
         listOfNumbers.add(START_INDEX, x)
         performedCommands.push(Triple(INSERTION_IN_BEGINNING, MEANINGLESS_VALUE, MEANINGLESS_VALUE))
@@ -33,17 +33,17 @@ class PerformedCommandStorage {
     }
 
     fun cancelLastAction() {
-        require(!performedCommands.isEmpty()) { "There was not last action" }
+        require(performedCommands.isNotEmpty()) { "There was not last action" }
         val (command, i, j) = performedCommands.pop()
         when (command) {
             INSERTION_IN_BEGINNING -> listOfNumbers.removeAt(0)
             INSERTION_IN_END -> listOfNumbers.removeAt(listOfNumbers.lastIndex)
-            MOVING_FROM_TO -> run {
+            MOVING_FROM_TO -> {
                 val temp = listOfNumbers[j]
                 (j downTo i + 1).forEach { listOfNumbers[it] = listOfNumbers[it - 1] }
                 listOfNumbers[i] = temp
             }
-            else -> run {
+            else -> {
                 throw IllegalArgumentException("Commands can only be from 1 to 3")
             }
         }
