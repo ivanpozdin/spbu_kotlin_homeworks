@@ -1,6 +1,6 @@
 package homeworks.homework1.task3
 
-import java.util.*
+import java.util.ArrayDeque
 
 const val INSERTION_IN_BEGINNING = 1
 const val INSERTION_IN_END = 2

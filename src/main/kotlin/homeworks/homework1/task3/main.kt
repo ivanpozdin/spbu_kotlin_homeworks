@@ -1,10 +1,8 @@
 package homeworks.homework1.task3
 
-
 const val QUIT_PROGRAM = 0
 const val CANCEL_LAST_ACTION = 4
 const val NOT_DEFINED_COMMAND = 5
-
 
 fun inputParameter(message: String): Int {
     var x: Int? = null
