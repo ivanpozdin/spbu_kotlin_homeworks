@@ -1,13 +1,13 @@
 package homeworks.homework1.task3
 
 enum class Command(val number: Int) {
-    QUIT_PROGRAM(0),
-    INSERTION_IN_BEGINNING(1),
-    INSERTION_IN_END(2),
-    MOVING_FROM_TO(3),
-    CANCEL_LAST_ACTION(4),
-    PRINT_LIST(5),
-    NOT_DEFINED_COMMAND(6)
+    QUIT_PROGRAM(number = 0),
+    INSERTION_IN_BEGINNING(number = 1),
+    INSERTION_IN_END(number = 2),
+    MOVING_FROM_TO(number = 3),
+    CANCEL_LAST_ACTION(number = 4),
+    PRINT_LIST(number = 5),
+    NOT_DEFINED_COMMAND(number = 6)
 }
 
 fun inputParameter(message: String): Int {
