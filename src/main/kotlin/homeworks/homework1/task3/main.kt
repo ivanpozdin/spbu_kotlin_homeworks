@@ -1,7 +1,7 @@
 package homeworks.homework1.task3
 
 enum class Command {
-    QUIT_PROGRAM,
+    STOP_ENTERING_COMMANDS,
     INSERTION_IN_BEGINNING,
     INSERTION_IN_END,
     MOVING_FROM_TO,
@@ -67,7 +67,7 @@ fun printRules() {
 fun processCommands() {
     val performedCommandStorage = PerformedCommandStorage()
     var command = Command.NOT_DEFINED_COMMAND.ordinal
-    while (command != Command.QUIT_PROGRAM.ordinal) {
+    while (command != Command.STOP_ENTERING_COMMANDS.ordinal) {
         print("Введите номер комманды: ")
         command = readLine()?.toIntOrNull() ?: -1
         when (command) {
@@ -86,7 +86,7 @@ fun processCommands() {
             Command.PRINT_LIST.ordinal -> {
                 processPrintingList(performedCommandStorage)
             }
-            Command.QUIT_PROGRAM.ordinal -> {
+            Command.STOP_ENTERING_COMMANDS.ordinal -> {
                 println("Завершение работы")
             }
             else -> {
