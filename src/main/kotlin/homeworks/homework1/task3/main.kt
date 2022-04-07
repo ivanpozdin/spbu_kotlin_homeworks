@@ -1,42 +1,45 @@
 package homeworks.homework1.task3
 
-const val QUIT_PROGRAM = 0
-const val CANCEL_LAST_ACTION = 4
-const val NOT_DEFINED_COMMAND = 5
+enum class Command(val number: Int) {
+    QUIT_PROGRAM(0),
+    INSERTION_IN_BEGINNING(1),
+    INSERTION_IN_END(2),
+    MOVING_FROM_TO(3),
+    CANCEL_LAST_ACTION(4),
+    PRINT_LIST(5),
+    NOT_DEFINED_COMMAND(6)
+}
 
 fun inputParameter(message: String): Int {
-    var x: Int? = null
-    while (x == null) {
+    var parameter: Int? = null
+    while (parameter == null) {
         print(message)
-        x = readLine()?.toIntOrNull() ?: run {
+        parameter = readLine()?.toIntOrNull() ?: run {
             println("   Неверный аргумент, попробуйте ещё раз")
             null
         }
     }
-    return x
+    return parameter
 }
 
 fun processInsertionInBeginning(performedCommandStorage: PerformedCommandStorage) {
     val x: Int = inputParameter("Введите число, которое нужно добавить в начало списка: ")
-    performedCommandStorage.insertInEnd(x)
-    print(performedCommandStorage.getListOfNumbers().joinToString(", ", "[", "]\n"))
+    performedCommandStorage.insertInBeginning(x)
 }
 
 fun processInsertionInEnd(performedCommandStorage: PerformedCommandStorage) {
     val x: Int = inputParameter("Введите число, которое нужно добавить в конец списка: ")
     performedCommandStorage.insertInEnd(x)
-    print(performedCommandStorage.getListOfNumbers().joinToString(", ", "[", "]\n"))
 }
 
 fun processMovingFromTo(performedCommandStorage: PerformedCommandStorage) {
-    val i = inputParameter("Введите индекс элемента, который нужно переместить: ")
-    val j = inputParameter("Введите индекс на который нужно переместить: ")
+    val fromIndex = inputParameter("Введите индекс элемента, который нужно переместить: ")
+    val toIndex = inputParameter("Введите индекс на который нужно переместить: ")
     try {
-        performedCommandStorage.moveFromTo(i, j)
+        performedCommandStorage.moveFromTo(fromIndex, toIndex)
     } catch (e: IllegalArgumentException) {
         println(e.message)
     }
-    print(performedCommandStorage.getListOfNumbers().joinToString(", ", "[", "]\n"))
 }
 
 fun processCancelingLastAction(performedCommandStorage: PerformedCommandStorage) {
@@ -45,7 +48,10 @@ fun processCancelingLastAction(performedCommandStorage: PerformedCommandStorage)
     } catch (e: IllegalArgumentException) {
         println(e.message)
     }
-    print(performedCommandStorage.getListOfNumbers().joinToString(", ", "[", "]\n"))
+}
+
+fun processPrintingList(performedCommandStorage: PerformedCommandStorage) {
+    performedCommandStorage.printListOfNumbers()
 }
 
 fun printRules() {
@@ -55,28 +61,32 @@ fun printRules() {
     println("2: вставить элемент x в конец списка,")
     println("3: переместить элемент с i на j позицию,")
     println("4: отменить последнее действие")
+    println("5: напечатать список")
 }
 
 fun processCommands() {
     val performedCommandStorage = PerformedCommandStorage()
-    var command = NOT_DEFINED_COMMAND
-    while (command != QUIT_PROGRAM) {
+    var command = Command.NOT_DEFINED_COMMAND.number
+    while (command != Command.QUIT_PROGRAM.number) {
         print("Введите номер комманды: ")
         command = readLine()?.toIntOrNull() ?: -1
         when (command) {
-            INSERTION_IN_BEGINNING -> {
+            Command.INSERTION_IN_BEGINNING.number -> {
                 processInsertionInBeginning(performedCommandStorage)
             }
-            INSERTION_IN_END -> {
+            Command.INSERTION_IN_END.number -> {
                 processInsertionInEnd(performedCommandStorage)
             }
-            MOVING_FROM_TO -> {
+            Command.MOVING_FROM_TO.number -> {
                 processMovingFromTo(performedCommandStorage)
             }
-            CANCEL_LAST_ACTION -> {
+            Command.CANCEL_LAST_ACTION.number -> {
                 processCancelingLastAction(performedCommandStorage)
             }
-            QUIT_PROGRAM -> {
+            Command.PRINT_LIST.number -> {
+                processPrintingList(performedCommandStorage)
+            }
+            Command.QUIT_PROGRAM.number -> {
                 println("Завершение работы")
             }
             else -> {

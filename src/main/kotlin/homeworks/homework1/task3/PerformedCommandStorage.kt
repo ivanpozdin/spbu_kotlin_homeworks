@@ -2,54 +2,83 @@ package homeworks.homework1.task3
 
 import java.util.ArrayDeque
 
-const val INSERTION_IN_BEGINNING = 1
-const val INSERTION_IN_END = 2
-const val MOVING_FROM_TO = 3
-const val MEANINGLESS_VALUE = -1
-const val START_INDEX = 0
+open class Action {
+    open fun performAction() {
+    }
+
+    open fun undo() {
+    }
+}
+
+class ActionInsertionInBeginning(private val value: Int, private val listOfNumbers: MutableList<Int>) : Action() {
+    override fun performAction() {
+        listOfNumbers.add(0, value)
+    }
+
+    override fun undo() {
+        listOfNumbers.removeAt(0)
+    }
+}
+
+class ActionInsertionInEnd(private val value: Int, private val listOfNumbers: MutableList<Int>) : Action() {
+    override fun performAction() {
+        listOfNumbers.add(value)
+    }
+
+    override fun undo() {
+        listOfNumbers.removeAt(listOfNumbers.lastIndex)
+    }
+}
+
+class ActionMoveFromTo(
+    private val listOfNumbers: MutableList<Int>,
+    private val fromIndex: Int,
+    private val toIndex: Int
+) : Action() {
+    override fun performAction() {
+        require((fromIndex in 0..listOfNumbers.lastIndex) and (toIndex in 0..listOfNumbers.lastIndex)) {
+            "Indices are not valid"
+        }
+        val temp = listOfNumbers[fromIndex]
+        listOfNumbers.removeAt(fromIndex)
+        listOfNumbers.add(toIndex, temp)
+    }
+
+    override fun undo() {
+        val temp = listOfNumbers[toIndex]
+        listOfNumbers.removeAt(toIndex)
+        listOfNumbers.add(fromIndex, temp)
+    }
+}
 
 class PerformedCommandStorage {
     private val listOfNumbers: MutableList<Int> = mutableListOf()
-
-    private var performedCommands: ArrayDeque<Triple<Int, Int, Int>> = ArrayDeque()
+    val innerListOfNumbers: List<Int> get() = listOfNumbers
+    private var performedCommands: ArrayDeque<Action> = ArrayDeque()
     fun insertInBeginning(x: Int) {
-        listOfNumbers.add(START_INDEX, x)
-        performedCommands.push(Triple(INSERTION_IN_BEGINNING, MEANINGLESS_VALUE, MEANINGLESS_VALUE))
+        val actionInsertInBeginning = ActionInsertionInBeginning(x, listOfNumbers)
+        actionInsertInBeginning.performAction()
+        performedCommands.push(ActionInsertionInBeginning(x, listOfNumbers))
     }
 
     fun insertInEnd(x: Int) {
-        listOfNumbers.add(x)
-        performedCommands.push(Triple(INSERTION_IN_END, MEANINGLESS_VALUE, MEANINGLESS_VALUE))
+        val actionInsertInEnd = ActionInsertionInEnd(x, listOfNumbers)
+        actionInsertInEnd.performAction()
+        performedCommands.push(actionInsertInEnd)
     }
 
-    fun moveFromTo(i: Int, j: Int) {
-        require((i in 0..listOfNumbers.lastIndex) and (j in 0..listOfNumbers.lastIndex)) {
-            "Indices are not valid"
-        }
-        val temp = listOfNumbers[i]
-        (i until j).forEach { listOfNumbers[it] = listOfNumbers[it + 1] }
-        listOfNumbers[j] = temp
-        performedCommands.push(Triple(MOVING_FROM_TO, i, j))
+    fun moveFromTo(fromIndex: Int, toIndex: Int) {
+        val actionMoveFromTo = ActionMoveFromTo(listOfNumbers, fromIndex, toIndex)
+        actionMoveFromTo.performAction()
+        performedCommands.push(actionMoveFromTo)
     }
 
     fun cancelLastAction() {
         require(performedCommands.isNotEmpty()) { "There was not last action" }
-        val (command, i, j) = performedCommands.pop()
-        when (command) {
-            INSERTION_IN_BEGINNING -> listOfNumbers.removeAt(0)
-            INSERTION_IN_END -> listOfNumbers.removeAt(listOfNumbers.lastIndex)
-            MOVING_FROM_TO -> {
-                val temp = listOfNumbers[j]
-                (j downTo i + 1).forEach { listOfNumbers[it] = listOfNumbers[it - 1] }
-                listOfNumbers[i] = temp
-            }
-            else -> {
-                throw IllegalArgumentException("Commands can only be from 1 to 3")
-            }
-        }
+        performedCommands.pop().undo()
     }
 
-    fun getListOfNumbers(): List<Int> {
-        return listOfNumbers
+    fun printListOfNumbers() {
+        print(listOfNumbers.joinToString(", ", "[", "]\n"))
     }
 }
