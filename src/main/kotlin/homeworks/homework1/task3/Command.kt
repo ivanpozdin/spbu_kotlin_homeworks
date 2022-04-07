@@ -1,0 +1,11 @@
+package homeworks.homework1.task3
+
+enum class Command {
+    STOP_ENTERING_COMMANDS,
+    INSERTION_IN_BEGINNING,
+    INSERTION_IN_END,
+    MOVING_FROM_TO,
+    CANCEL_LAST_ACTION,
+    PRINT_LIST,
+    NOT_DEFINED_COMMAND
+}

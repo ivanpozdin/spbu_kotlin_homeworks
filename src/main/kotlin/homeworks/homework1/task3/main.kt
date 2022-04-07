@@ -1,15 +1,5 @@
 package homeworks.homework1.task3
 
-enum class TypeOfAction {
-    STOP_ENTERING_COMMANDS,
-    INSERTION_IN_BEGINNING,
-    INSERTION_IN_END,
-    MOVING_FROM_TO,
-    CANCEL_LAST_ACTION,
-    PRINT_LIST,
-    NOT_DEFINED_COMMAND
-}
-
 fun inputParameter(message: String): Int {
     var parameter: Int? = null
     while (parameter == null) {
@@ -66,27 +56,27 @@ fun printRules() {
 
 fun processCommands() {
     val performedCommandStorage = PerformedCommandStorage()
-    var command = TypeOfAction.NOT_DEFINED_COMMAND.ordinal
-    while (command != TypeOfAction.STOP_ENTERING_COMMANDS.ordinal) {
+    var command = Command.NOT_DEFINED_COMMAND.ordinal
+    while (command != Command.STOP_ENTERING_COMMANDS.ordinal) {
         print("Введите номер комманды: ")
         command = readLine()?.toIntOrNull() ?: -1
         when (command) {
-            TypeOfAction.INSERTION_IN_BEGINNING.ordinal -> {
+            Command.INSERTION_IN_BEGINNING.ordinal -> {
                 processInsertionInBeginning(performedCommandStorage)
             }
-            TypeOfAction.INSERTION_IN_END.ordinal -> {
+            Command.INSERTION_IN_END.ordinal -> {
                 processInsertionInEnd(performedCommandStorage)
             }
-            TypeOfAction.MOVING_FROM_TO.ordinal -> {
+            Command.MOVING_FROM_TO.ordinal -> {
                 processMovingFromTo(performedCommandStorage)
             }
-            TypeOfAction.CANCEL_LAST_ACTION.ordinal -> {
+            Command.CANCEL_LAST_ACTION.ordinal -> {
                 processCancelingLastAction(performedCommandStorage)
             }
-            TypeOfAction.PRINT_LIST.ordinal -> {
+            Command.PRINT_LIST.ordinal -> {
                 processPrintingList(performedCommandStorage)
             }
-            TypeOfAction.STOP_ENTERING_COMMANDS.ordinal -> {
+            Command.STOP_ENTERING_COMMANDS.ordinal -> {
                 println("Завершение работы")
             }
             else -> {
