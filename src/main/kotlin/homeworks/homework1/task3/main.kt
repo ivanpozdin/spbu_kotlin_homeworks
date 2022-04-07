@@ -1,13 +1,13 @@
 package homeworks.homework1.task3
 
-enum class Command(val number: Int) {
-    QUIT_PROGRAM(number = 0),
-    INSERTION_IN_BEGINNING(number = 1),
-    INSERTION_IN_END(number = 2),
-    MOVING_FROM_TO(number = 3),
-    CANCEL_LAST_ACTION(number = 4),
-    PRINT_LIST(number = 5),
-    NOT_DEFINED_COMMAND(number = 6)
+enum class Command{
+    QUIT_PROGRAM,
+    INSERTION_IN_BEGINNING,
+    INSERTION_IN_END,
+    MOVING_FROM_TO,
+    CANCEL_LAST_ACTION,
+    PRINT_LIST,
+    NOT_DEFINED_COMMAND
 }
 
 fun inputParameter(message: String): Int {
@@ -66,27 +66,27 @@ fun printRules() {
 
 fun processCommands() {
     val performedCommandStorage = PerformedCommandStorage()
-    var command = Command.NOT_DEFINED_COMMAND.number
-    while (command != Command.QUIT_PROGRAM.number) {
+    var command = Command.NOT_DEFINED_COMMAND.ordinal
+    while (command != Command.QUIT_PROGRAM.ordinal) {
         print("Введите номер комманды: ")
         command = readLine()?.toIntOrNull() ?: -1
         when (command) {
-            Command.INSERTION_IN_BEGINNING.number -> {
+            Command.INSERTION_IN_BEGINNING.ordinal -> {
                 processInsertionInBeginning(performedCommandStorage)
             }
-            Command.INSERTION_IN_END.number -> {
+            Command.INSERTION_IN_END.ordinal -> {
                 processInsertionInEnd(performedCommandStorage)
             }
-            Command.MOVING_FROM_TO.number -> {
+            Command.MOVING_FROM_TO.ordinal -> {
                 processMovingFromTo(performedCommandStorage)
             }
-            Command.CANCEL_LAST_ACTION.number -> {
+            Command.CANCEL_LAST_ACTION.ordinal -> {
                 processCancelingLastAction(performedCommandStorage)
             }
-            Command.PRINT_LIST.number -> {
+            Command.PRINT_LIST.ordinal -> {
                 processPrintingList(performedCommandStorage)
             }
-            Command.QUIT_PROGRAM.number -> {
+            Command.QUIT_PROGRAM.ordinal -> {
                 println("Завершение работы")
             }
             else -> {
