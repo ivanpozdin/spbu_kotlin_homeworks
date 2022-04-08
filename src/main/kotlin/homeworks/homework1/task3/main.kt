@@ -41,7 +41,7 @@ fun processCancelingLastAction(performedCommandStorage: PerformedCommandStorage)
 }
 
 fun processPrintingList(performedCommandStorage: PerformedCommandStorage) {
-    performedCommandStorage.printListOfNumbers()
+    print(performedCommandStorage.innerListOfNumbers.joinToString(", ", "[", "]\n"))
 }
 
 fun printRules() {

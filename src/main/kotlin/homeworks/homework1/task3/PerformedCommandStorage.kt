@@ -10,7 +10,7 @@ open class Action {
     }
 }
 
-class ActionInsertionInBeginning(private val value: Int, private val listOfNumbers: MutableList<Int>) : Action() {
+class ActionInsertInBeginning(private val value: Int, private val listOfNumbers: MutableList<Int>) : Action() {
     override fun performAction() {
         listOfNumbers.add(0, value)
     }
@@ -20,7 +20,7 @@ class ActionInsertionInBeginning(private val value: Int, private val listOfNumbe
     }
 }
 
-class ActionInsertionInEnd(private val value: Int, private val listOfNumbers: MutableList<Int>) : Action() {
+class ActionInsertInEnd(private val value: Int, private val listOfNumbers: MutableList<Int>) : Action() {
     override fun performAction() {
         listOfNumbers.add(value)
     }
@@ -56,13 +56,13 @@ class PerformedCommandStorage {
     val innerListOfNumbers: List<Int> get() = listOfNumbers
     private var performedCommands: ArrayDeque<Action> = ArrayDeque()
     fun insertInBeginning(x: Int) {
-        val actionInsertInBeginning = ActionInsertionInBeginning(x, listOfNumbers)
+        val actionInsertInBeginning = ActionInsertInBeginning(x, listOfNumbers)
         actionInsertInBeginning.performAction()
-        performedCommands.push(ActionInsertionInBeginning(x, listOfNumbers))
+        performedCommands.push(ActionInsertInBeginning(x, listOfNumbers))
     }
 
     fun insertInEnd(x: Int) {
-        val actionInsertInEnd = ActionInsertionInEnd(x, listOfNumbers)
+        val actionInsertInEnd = ActionInsertInEnd(x, listOfNumbers)
         actionInsertInEnd.performAction()
         performedCommands.push(actionInsertInEnd)
     }
@@ -76,9 +76,5 @@ class PerformedCommandStorage {
     fun cancelLastAction() {
         require(performedCommands.isNotEmpty()) { "There was not last action" }
         performedCommands.pop().undo()
-    }
-
-    fun printListOfNumbers() {
-        print(listOfNumbers.joinToString(", ", "[", "]\n"))
     }
 }
