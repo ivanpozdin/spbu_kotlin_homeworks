@@ -2,15 +2,12 @@ package homeworks.homework1.task3
 
 import java.util.ArrayDeque
 
-open class Action {
-    open fun performAction() {
-    }
-
-    open fun undo() {
-    }
+interface Action {
+    fun performAction()
+    fun undo()
 }
 
-class ActionInsertInBeginning(private val value: Int, private val listOfNumbers: MutableList<Int>) : Action() {
+class ActionInsertInBeginning(private val value: Int, private val listOfNumbers: MutableList<Int>) : Action {
     override fun performAction() {
         listOfNumbers.add(0, value)
     }
@@ -20,7 +17,7 @@ class ActionInsertInBeginning(private val value: Int, private val listOfNumbers:
     }
 }
 
-class ActionInsertInEnd(private val value: Int, private val listOfNumbers: MutableList<Int>) : Action() {
+class ActionInsertInEnd(private val value: Int, private val listOfNumbers: MutableList<Int>) : Action {
     override fun performAction() {
         listOfNumbers.add(value)
     }
@@ -34,7 +31,7 @@ class ActionMoveFromTo(
     private val listOfNumbers: MutableList<Int>,
     private val fromIndex: Int,
     private val toIndex: Int
-) : Action() {
+) : Action {
     override fun performAction() {
         require((fromIndex in 0..listOfNumbers.lastIndex) and (toIndex in 0..listOfNumbers.lastIndex)) {
             "Indices are not valid"
