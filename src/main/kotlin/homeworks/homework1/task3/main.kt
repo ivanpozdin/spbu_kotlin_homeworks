@@ -45,13 +45,16 @@ fun processPrintingList(performedCommandStorage: PerformedCommandStorage) {
 }
 
 fun printRules() {
-    println("Есть 5 комманд:")
-    println("0: остановить ввод")
-    println("1: вставить элемент x в начало списка,")
-    println("2: вставить элемент x в конец списка,")
-    println("3: переместить элемент с i на j позицию,")
-    println("4: отменить последнее действие")
-    println("5: напечатать список")
+    val message = """
+        Есть 5 комманд:
+        0: остановить ввод
+        1: вставить элемент x в начало списка,
+        2: вставить элемент x в конец списка,"
+        3: переместить элемент с i на j позицию,
+        4: отменить последнее действие",
+        5: напечатать список
+    """.trimIndent()
+    println(message)
 }
 
 fun processCommands() {
