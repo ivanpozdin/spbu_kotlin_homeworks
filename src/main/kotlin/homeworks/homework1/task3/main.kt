@@ -4,9 +4,9 @@ fun inputParameter(message: String): Int {
     var parameter: Int? = null
     while (parameter == null) {
         print(message)
-        parameter = readLine()?.toIntOrNull() ?: run {
-            println("   Неверный аргумент, попробуйте ещё раз")
-            null
+        parameter = readLine()?.toIntOrNull()
+        if (parameter == null) {
+            println("Неверный аргумент, попробуйте ещё раз")
         }
     }
     return parameter
