@@ -1,6 +1,6 @@
 package homeworks.homework1.task3
 
-import java.util.ArrayDeque
+import kotlin.collections.ArrayDeque
 
 interface Action {
     fun performAction()
@@ -55,23 +55,23 @@ class PerformedCommandStorage {
     fun insertInBeginning(x: Int) {
         val actionInsertInBeginning = ActionInsertInBeginning(x, listOfNumbers)
         actionInsertInBeginning.performAction()
-        performedCommands.push(ActionInsertInBeginning(x, listOfNumbers))
+        performedCommands.add(ActionInsertInBeginning(x, listOfNumbers))
     }
 
     fun insertInEnd(x: Int) {
         val actionInsertInEnd = ActionInsertInEnd(x, listOfNumbers)
         actionInsertInEnd.performAction()
-        performedCommands.push(actionInsertInEnd)
+        performedCommands.add(actionInsertInEnd)
     }
 
     fun moveFromTo(fromIndex: Int, toIndex: Int) {
         val actionMoveFromTo = ActionMoveFromTo(listOfNumbers, fromIndex, toIndex)
         actionMoveFromTo.performAction()
-        performedCommands.push(actionMoveFromTo)
+        performedCommands.add(actionMoveFromTo)
     }
 
     fun cancelLastAction() {
         require(performedCommands.isNotEmpty()) { "There was not last action" }
-        performedCommands.pop().undo()
+        performedCommands.removeLast().undo()
     }
 }
