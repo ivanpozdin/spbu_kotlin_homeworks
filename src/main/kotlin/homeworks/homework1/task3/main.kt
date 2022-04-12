@@ -59,27 +59,27 @@ fun printRules() {
 
 fun processCommands() {
     val performedCommandStorage = PerformedCommandStorage()
-    var command = Command.NOT_DEFINED_COMMAND.ordinal
-    while (command != Command.STOP_ENTERING_COMMANDS.ordinal) {
+    var command = Command.NOT_DEFINED_COMMAND.number
+    while (command != Command.STOP_ENTERING_COMMANDS.number) {
         print("Введите номер комманды: ")
         command = readLine()?.toIntOrNull() ?: -1
         when (command) {
-            Command.INSERTION_IN_BEGINNING.ordinal -> {
+            Command.INSERTION_IN_BEGINNING.number -> {
                 processInsertionInBeginning(performedCommandStorage)
             }
-            Command.INSERTION_IN_END.ordinal -> {
+            Command.INSERTION_IN_END.number -> {
                 processInsertionInEnd(performedCommandStorage)
             }
-            Command.MOVING_FROM_TO.ordinal -> {
+            Command.MOVING_FROM_TO.number -> {
                 processMovingFromTo(performedCommandStorage)
             }
-            Command.CANCEL_LAST_ACTION.ordinal -> {
+            Command.CANCEL_LAST_ACTION.number -> {
                 processCancelingLastAction(performedCommandStorage)
             }
-            Command.PRINT_LIST.ordinal -> {
+            Command.PRINT_LIST.number -> {
                 processPrintingList(performedCommandStorage)
             }
-            Command.STOP_ENTERING_COMMANDS.ordinal -> {
+            Command.STOP_ENTERING_COMMANDS.number -> {
                 println("Завершение работы")
             }
             else -> {
