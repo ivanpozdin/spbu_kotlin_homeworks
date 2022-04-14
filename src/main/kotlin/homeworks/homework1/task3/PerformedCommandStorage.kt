@@ -1,7 +1,5 @@
 package homeworks.homework1.task3
 
-import kotlin.collections.ArrayDeque
-
 interface Action {
     fun performAction()
     fun undo()
@@ -50,24 +48,11 @@ class ActionMoveFromTo(
 
 class PerformedCommandStorage {
     private val listOfNumbers: MutableList<Int> = mutableListOf()
-    val innerListOfNumbers: List<Int> get() = listOfNumbers
+    val innerListOfNumbers: MutableList<Int> get() = listOfNumbers
     private var performedCommands: ArrayDeque<Action> = ArrayDeque()
-    fun insertInBeginning(x: Int) {
-        val actionInsertInBeginning = ActionInsertInBeginning(x, listOfNumbers)
-        actionInsertInBeginning.performAction()
-        performedCommands.add(ActionInsertInBeginning(x, listOfNumbers))
-    }
 
-    fun insertInEnd(x: Int) {
-        val actionInsertInEnd = ActionInsertInEnd(x, listOfNumbers)
-        actionInsertInEnd.performAction()
-        performedCommands.add(actionInsertInEnd)
-    }
-
-    fun moveFromTo(fromIndex: Int, toIndex: Int) {
-        val actionMoveFromTo = ActionMoveFromTo(listOfNumbers, fromIndex, toIndex)
-        actionMoveFromTo.performAction()
-        performedCommands.add(actionMoveFromTo)
+    fun addCommand(action: Action) {
+        performedCommands.add(action)
     }
 
     fun cancelLastAction() {

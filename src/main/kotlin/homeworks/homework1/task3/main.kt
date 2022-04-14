@@ -12,21 +12,23 @@ fun inputParameter(message: String): Int {
     return parameter
 }
 
-fun processInsertionInBeginning(performedCommandStorage: PerformedCommandStorage) {
-    val x: Int = inputParameter("Введите число, которое нужно добавить в начало списка: ")
-    performedCommandStorage.insertInBeginning(x)
+fun processInsertionInBeginning(x: Int, performedCommandStorage: PerformedCommandStorage) {
+    val action = ActionInsertInBeginning(x, performedCommandStorage.innerListOfNumbers)
+    action.performAction()
+    performedCommandStorage.addCommand(action)
 }
 
-fun processInsertionInEnd(performedCommandStorage: PerformedCommandStorage) {
-    val x: Int = inputParameter("Введите число, которое нужно добавить в конец списка: ")
-    performedCommandStorage.insertInEnd(x)
+fun processInsertionInEnd(x: Int, performedCommandStorage: PerformedCommandStorage) {
+    val action = ActionInsertInEnd(x, performedCommandStorage.innerListOfNumbers)
+    action.performAction()
+    performedCommandStorage.addCommand(action)
 }
 
-fun processMovingFromTo(performedCommandStorage: PerformedCommandStorage) {
-    val fromIndex = inputParameter("Введите индекс элемента, который нужно переместить: ")
-    val toIndex = inputParameter("Введите индекс на который нужно переместить: ")
+fun processMovingFromTo(fromIndex: Int, toIndex: Int, performedCommandStorage: PerformedCommandStorage) {
+    val action = ActionMoveFromTo(performedCommandStorage.innerListOfNumbers, fromIndex, toIndex)
     try {
-        performedCommandStorage.moveFromTo(fromIndex, toIndex)
+        action.performAction()
+        performedCommandStorage.addCommand(action)
     } catch (e: IllegalArgumentException) {
         println(e.message)
     }
@@ -59,27 +61,31 @@ fun printRules() {
 
 fun processCommands() {
     val performedCommandStorage = PerformedCommandStorage()
-    var command = Command.NOT_DEFINED_COMMAND.number
-    while (command != Command.STOP_ENTERING_COMMANDS.number) {
+    var command = Command.NOT_DEFINED_COMMAND.ordinal
+    while (command != Command.STOP_ENTERING_COMMANDS.ordinal) {
         print("Введите номер комманды: ")
         command = readLine()?.toIntOrNull() ?: -1
         when (command) {
-            Command.INSERTION_IN_BEGINNING.number -> {
-                processInsertionInBeginning(performedCommandStorage)
+            Command.INSERTION_IN_BEGINNING.ordinal -> {
+                val x: Int = inputParameter("Введите число, которое нужно добавить в начало списка: ")
+                processInsertionInBeginning(x, performedCommandStorage)
             }
-            Command.INSERTION_IN_END.number -> {
-                processInsertionInEnd(performedCommandStorage)
+            Command.INSERTION_IN_END.ordinal -> {
+                val x: Int = inputParameter("Введите число, которое нужно добавить в конец списка: ")
+                processInsertionInEnd(x, performedCommandStorage)
             }
-            Command.MOVING_FROM_TO.number -> {
-                processMovingFromTo(performedCommandStorage)
+            Command.MOVING_FROM_TO.ordinal -> {
+                val fromIndex = inputParameter("Введите индекс элемента, который нужно переместить: ")
+                val toIndex = inputParameter("Введите индекс на который нужно переместить: ")
+                processMovingFromTo(fromIndex, toIndex, performedCommandStorage)
             }
-            Command.CANCEL_LAST_ACTION.number -> {
+            Command.CANCEL_LAST_ACTION.ordinal -> {
                 processCancelingLastAction(performedCommandStorage)
             }
-            Command.PRINT_LIST.number -> {
+            Command.PRINT_LIST.ordinal -> {
                 processPrintingList(performedCommandStorage)
             }
-            Command.STOP_ENTERING_COMMANDS.number -> {
+            Command.STOP_ENTERING_COMMANDS.ordinal -> {
                 println("Завершение работы")
             }
             else -> {

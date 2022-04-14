@@ -9,7 +9,7 @@ internal class PerformedCommandStorageTest {
     fun insertInEndTest() {
         val expected: List<Int> = listOf(1, 2, 3, 4, 5)
         val performedCommandStorage = PerformedCommandStorage()
-        (1..5).forEach { performedCommandStorage.insertInEnd(it) }
+        (1..5).forEach { processInsertionInEnd(it, performedCommandStorage) }
         assertEquals(expected, performedCommandStorage.innerListOfNumbers)
     }
 
@@ -17,7 +17,7 @@ internal class PerformedCommandStorageTest {
     fun insertInBeginningTest() {
         val expected = listOf(1, 2, 3, 4, 5)
         val performedCommandStorage = PerformedCommandStorage()
-        (5 downTo 1).forEach { performedCommandStorage.insertInBeginning(it) }
+        (5 downTo 1).forEach { processInsertionInBeginning(it, performedCommandStorage) }
         assertEquals(expected, performedCommandStorage.innerListOfNumbers)
     }
 
@@ -25,8 +25,8 @@ internal class PerformedCommandStorageTest {
     fun moveFromToTest() {
         val expected = listOf(1, 3, 4, 2, 5)
         val performedCommandStorage = PerformedCommandStorage()
-        (1..5).forEach { performedCommandStorage.insertInEnd(it) }
-        performedCommandStorage.moveFromTo(1, 3)
+        (1..5).forEach { processInsertionInEnd(it, performedCommandStorage) }
+        processMovingFromTo(1, 3, performedCommandStorage)
         assertEquals(expected, performedCommandStorage.innerListOfNumbers)
     }
 
@@ -34,7 +34,7 @@ internal class PerformedCommandStorageTest {
     fun cancelLastActionForInsertInEndTest() {
         val expected: List<Int> = listOf(1, 2, 3, 4)
         val performedCommandStorage = PerformedCommandStorage()
-        (1..5).forEach { performedCommandStorage.insertInEnd(it) }
+        (1..5).forEach { processInsertionInEnd(it, performedCommandStorage) }
         performedCommandStorage.cancelLastAction()
         assertEquals(expected, performedCommandStorage.innerListOfNumbers)
     }
@@ -43,7 +43,7 @@ internal class PerformedCommandStorageTest {
     fun cancelLastActionForInsertInBeginningTest() {
         val expected = listOf(2, 3, 4, 5)
         val performedCommandStorage = PerformedCommandStorage()
-        (5 downTo 1).forEach { performedCommandStorage.insertInBeginning(it) }
+        (5 downTo 1).forEach { processInsertionInBeginning(it, performedCommandStorage) }
         performedCommandStorage.cancelLastAction()
         assertEquals(expected, performedCommandStorage.innerListOfNumbers)
     }
@@ -52,8 +52,8 @@ internal class PerformedCommandStorageTest {
     fun cancelLastActionForMoveFromToTest() {
         val expected = listOf(1, 2, 3, 4, 5)
         val performedCommandStorage = PerformedCommandStorage()
-        (1..5).forEach { performedCommandStorage.insertInEnd(it) }
-        performedCommandStorage.moveFromTo(1, 3)
+        (1..5).forEach { processInsertionInEnd(it, performedCommandStorage) }
+        processMovingFromTo(1, 3, performedCommandStorage)
         performedCommandStorage.cancelLastAction()
         assertEquals(expected, performedCommandStorage.innerListOfNumbers)
     }
@@ -61,8 +61,9 @@ internal class PerformedCommandStorageTest {
     @Test
     fun moveFromToFailTest() {
         val performedCommandStorage = PerformedCommandStorage()
-        (1..5).forEach { performedCommandStorage.insertInEnd(it) }
-        val exception = assertFailsWith<IllegalArgumentException> { performedCommandStorage.moveFromTo(0, 100) }
+        (1..5).forEach { processInsertionInEnd(it, performedCommandStorage) }
+        val action = ActionMoveFromTo(performedCommandStorage.innerListOfNumbers, 0, 100)
+        val exception = assertFailsWith<IllegalArgumentException> { action.performAction() }
         assertEquals("Indices are not valid", exception.message)
     }
 
