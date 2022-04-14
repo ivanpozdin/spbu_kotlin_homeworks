@@ -1,6 +1,6 @@
 package homeworks.homework1.task3
 
-interface Action {
+interface Action{
     fun performAction()
     fun undo()
 }
