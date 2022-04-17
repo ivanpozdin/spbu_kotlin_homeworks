@@ -49,43 +49,43 @@ fun processPrintingList(performedCommandStorage: PerformedCommandStorage) {
 fun printRules() {
     val message = """
         Есть 5 комманд:
-        0: остановить ввод
-        1: вставить элемент x в начало списка,
-        2: вставить элемент x в конец списка,"
-        3: переместить элемент с i на j позицию,
-        4: отменить последнее действие",
-        5: напечатать список
+        STOP: остановить ввод
+        INS_BEG: вставить элемент x в начало списка,
+        INS_END: вставить элемент x в конец списка,"
+        MOVE: переместить элемент с i на j позицию,
+        CANCEL: отменить последнее действие",
+        PRINT: напечатать список
     """.trimIndent()
     println(message)
 }
 
 fun processCommands() {
     val performedCommandStorage = PerformedCommandStorage()
-    var command = Command.NOT_DEFINED_COMMAND.ordinal
-    while (command != Command.STOP_ENTERING_COMMANDS.ordinal) {
+    var command = Command.NOT_DEFINED_COMMAND.type
+    while (command != Command.STOP_ENTERING_COMMANDS.type) {
         print("Введите номер комманды: ")
-        command = readLine()?.toIntOrNull() ?: -1
+        command = readLine() ?: Command.NOT_DEFINED_COMMAND.type
         when (command) {
-            Command.INSERTION_IN_BEGINNING.ordinal -> {
+            Command.INSERTION_IN_BEGINNING.type -> {
                 val x: Int = inputParameter("Введите число, которое нужно добавить в начало списка: ")
                 processInsertionInBeginning(x, performedCommandStorage)
             }
-            Command.INSERTION_IN_END.ordinal -> {
+            Command.INSERTION_IN_END.type -> {
                 val x: Int = inputParameter("Введите число, которое нужно добавить в конец списка: ")
                 processInsertionInEnd(x, performedCommandStorage)
             }
-            Command.MOVING_FROM_TO.ordinal -> {
+            Command.MOVING_FROM_TO.type -> {
                 val fromIndex = inputParameter("Введите индекс элемента, который нужно переместить: ")
                 val toIndex = inputParameter("Введите индекс на который нужно переместить: ")
                 processMovingFromTo(fromIndex, toIndex, performedCommandStorage)
             }
-            Command.CANCEL_LAST_ACTION.ordinal -> {
+            Command.CANCEL_LAST_ACTION.type -> {
                 processCancelingLastAction(performedCommandStorage)
             }
-            Command.PRINT_LIST.ordinal -> {
+            Command.PRINT_LIST.type -> {
                 processPrintingList(performedCommandStorage)
             }
-            Command.STOP_ENTERING_COMMANDS.ordinal -> {
+            Command.STOP_ENTERING_COMMANDS.type -> {
                 println("Завершение работы")
             }
             else -> {
