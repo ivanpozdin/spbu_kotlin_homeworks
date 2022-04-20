@@ -63,7 +63,7 @@ fun processCommands() {
     val performedCommandStorage = PerformedCommandStorage()
     var command = Command.NOT_DEFINED_COMMAND.type
     while (command != Command.STOP_ENTERING_COMMANDS.type) {
-        print("Введите номер комманды: ")
+        print("Введите команду: ")
         command = readLine() ?: Command.NOT_DEFINED_COMMAND.type
         when (command) {
             Command.INSERTION_IN_BEGINNING.type -> {
