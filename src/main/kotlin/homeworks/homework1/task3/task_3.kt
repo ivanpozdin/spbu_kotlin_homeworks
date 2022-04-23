@@ -45,7 +45,7 @@ fun processCancelingLastAction(performedCommandStorage: PerformedCommandStorage)
 fun processPrintingList(performedCommandStorage: PerformedCommandStorage) {
     val separator = ", "
     val prefix = "["
-    val postfix= "]\n"
+    val postfix = "]\n"
     print(performedCommandStorage.innerListOfNumbers.joinToString(separator, prefix, postfix))
 }
 

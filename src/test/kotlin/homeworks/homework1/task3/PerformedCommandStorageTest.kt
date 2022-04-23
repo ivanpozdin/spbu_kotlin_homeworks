@@ -63,7 +63,10 @@ internal class PerformedCommandStorageTest {
         val performedCommandStorage = PerformedCommandStorage()
         (1..5).forEach { processInsertionInEnd(it, performedCommandStorage) }
         val action = ActionMoveFromTo(0, 100)
-        val exception = assertFailsWith<IllegalArgumentException> { action.performAction(performedCommandStorage.innerListOfNumbers) }
+
+        val exception = assertFailsWith<IllegalArgumentException> {
+            action.performAction(performedCommandStorage.innerListOfNumbers)
+        }
         assertEquals("Indices are not valid", exception.message)
     }
 
