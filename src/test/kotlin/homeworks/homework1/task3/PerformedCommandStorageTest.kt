@@ -71,6 +71,6 @@ internal class PerformedCommandStorageTest {
     fun moveCancelLastActionFailTest() {
         val performedCommandStorage = PerformedCommandStorage()
         val exception = assertFailsWith<IllegalArgumentException> { performedCommandStorage.cancelLastAction() }
-        assertEquals("There was not last action", exception.message)
+        assertEquals("There is no last action", exception.message)
     }
 }
