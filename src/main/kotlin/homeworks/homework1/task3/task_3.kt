@@ -13,21 +13,21 @@ fun inputParameter(message: String): Int {
 }
 
 fun processInsertionInBeginning(x: Int, performedCommandStorage: PerformedCommandStorage) {
-    val action = ActionInsertInBeginning(x, performedCommandStorage.innerListOfNumbers)
-    action.performAction()
+    val action = ActionInsertInBeginning(x)
+    action.performAction(performedCommandStorage.innerListOfNumbers)
     performedCommandStorage.addCommand(action)
 }
 
 fun processInsertionInEnd(x: Int, performedCommandStorage: PerformedCommandStorage) {
-    val action = ActionInsertInEnd(x, performedCommandStorage.innerListOfNumbers)
-    action.performAction()
+    val action = ActionInsertInEnd(x)
+    action.performAction(performedCommandStorage.innerListOfNumbers)
     performedCommandStorage.addCommand(action)
 }
 
 fun processMovingFromTo(fromIndex: Int, toIndex: Int, performedCommandStorage: PerformedCommandStorage) {
-    val action = ActionMoveFromTo(performedCommandStorage.innerListOfNumbers, fromIndex, toIndex)
+    val action = ActionMoveFromTo(fromIndex, toIndex)
     try {
-        action.performAction()
+        action.performAction(performedCommandStorage.innerListOfNumbers)
         performedCommandStorage.addCommand(action)
     } catch (e: IllegalArgumentException) {
         println(e.message)

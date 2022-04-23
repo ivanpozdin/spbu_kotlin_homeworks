@@ -11,6 +11,6 @@ class PerformedCommandStorage {
 
     fun cancelLastAction() {
         require(performedCommands.isNotEmpty()) { "There is no last action" }
-        performedCommands.removeLast().undo()
+        performedCommands.removeLast().undo(listOfNumbers)
     }
 }
