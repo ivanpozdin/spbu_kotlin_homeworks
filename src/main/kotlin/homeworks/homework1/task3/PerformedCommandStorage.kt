@@ -10,7 +10,7 @@ class PerformedCommandStorage {
     }
 
     fun cancelLastAction() {
-        require(performedCommands.isNotEmpty()) { "There was not last action" }
+        require(performedCommands.isNotEmpty()) { "There is no last action" }
         performedCommands.removeLast().undo()
     }
 }
