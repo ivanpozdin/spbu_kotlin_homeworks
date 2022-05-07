@@ -81,13 +81,8 @@ class AVLTree<K : Comparable<K>, V> {
         return node
     }
 
-
     fun put(key: K, value: V) {
-        if (root == null) {
-            root = insertWithoutBalance(root, key, value)
-        } else {
-            insertWithoutBalance(root, key, value)
-        }
+        insertWithoutBalance(root, key, value)
         root = balance(root)
     }
 
