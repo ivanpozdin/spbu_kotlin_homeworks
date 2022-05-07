@@ -38,22 +38,21 @@ class AVLTree<K : Comparable<K>, V> {
         val left: Int = node.leftChild?.height ?: 0
         val right: Int = node.rightChild?.height ?: 0
         return right - left
-
     }
 
     private fun balance(node: TreeNode<K, V>?): TreeNode<K, V>? {
+        var newRoot: TreeNode<K, V>? = node
         if (getBalanceFactor(node) == 2) {
             if (getBalanceFactor(root?.rightChild) == 1) {
                 node?.rightChild = rotateRight(node?.rightChild)
             }
-            return rotateLeft(node)
-        }
-        if (getBalanceFactor(node) == -2) {
+            newRoot = rotateLeft(node)
+        } else if (getBalanceFactor(node) == -2) {
             if (getBalanceFactor(node?.leftChild) == 1)
                 node?.leftChild = rotateLeft(node?.leftChild)
-            return rotateRight(root)
+            newRoot = rotateRight(root)
         }
-        return node
+        return newRoot
     }
 
     private fun findNodeWithGivenKey(node: TreeNode<K, V>?, key: K): TreeNode<K, V>? {
@@ -68,18 +67,18 @@ class AVLTree<K : Comparable<K>, V> {
         return node
     }
 
-    private fun insertWithoutBalance(root: TreeNode<K, V>?, key: K, value: V): TreeNode<K, V> {
-        if (root == null) {
+    private fun insertWithoutBalance(node: TreeNode<K, V>?, key: K, value: V): TreeNode<K, V> {
+        if (node == null) {
             return TreeNode(value, key)
         }
-        if (root.key > key) {
-            root.leftChild = insertWithoutBalance(root.leftChild, key, value)
-        } else if (root.key < key) {
-            root.rightChild = insertWithoutBalance(root.rightChild, key, value)
-        } else if (root.key == key) {
-            root.value = value
+        if (node.key > key) {
+            node.leftChild = insertWithoutBalance(node.leftChild, key, value)
+        } else if (node.key < key) {
+            node.rightChild = insertWithoutBalance(node.rightChild, key, value)
+        } else if (node.key == key) {
+            node.value = value
         }
-        return root
+        return node
     }
 
 
@@ -109,42 +108,6 @@ class AVLTree<K : Comparable<K>, V> {
     fun getValueFromKey(key: K): V? {
         val node: TreeNode<K, V>? = findNodeWithGivenKey(root, key)
         return node?.value
-    }
-
-    private fun getNodeWithMaxKey(): TreeNode<K, V>? {
-        var node: TreeNode<K, V>? = root
-        while (node?.rightChild != null) {
-            node = node.rightChild
-        }
-        return node
-    }
-
-    private fun getNodeWithMinKey(): TreeNode<K, V>? {
-        var node: TreeNode<K, V>? = root
-        while (node?.leftChild != null) {
-            node = node.leftChild
-        }
-        return node
-    }
-
-    private fun getLowerBound(key: K): K? {
-        var node: TreeNode<K, V>? = root ?: return null
-        var lowerBound: K = root?.key ?: return null
-        while (node != null) {
-            if (node.key >= key) {
-                lowerBound = node.key
-                node = node.leftChild
-            } else {
-                if (node.rightChild == null) {
-                    if (lowerBound >= key) {
-                        return lowerBound
-                    }
-                    return null
-                }
-                node = node.rightChild
-            }
-        }
-        return lowerBound
     }
 
     private fun extractMax(node: TreeNode<K, V>?): Pair<TreeNode<K, V>?, TreeNode<K, V>?> {
