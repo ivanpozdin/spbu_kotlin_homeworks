@@ -50,8 +50,8 @@ class AVLTree<K : Comparable<K>, V> {
         }
         if (getBalanceFactor(node) == -2) {
             if (getBalanceFactor(node?.leftChild) == 1)
-                node?.leftChild = rotateLeft(node?.leftChild);
-            return rotateRight(root);
+                node?.leftChild = rotateLeft(node?.leftChild)
+            return rotateRight(root)
         }
         return node
     }
@@ -62,7 +62,7 @@ class AVLTree<K : Comparable<K>, V> {
         }
         if (key > node.key) {
             return findNodeWithGivenKey(node.rightChild, key)
-        } else if (key < node.key){
+        } else if (key < node.key) {
             return findNodeWithGivenKey(node.leftChild, key)
         }
         return node
@@ -73,7 +73,7 @@ class AVLTree<K : Comparable<K>, V> {
             return TreeNode(value, key)
         }
         if (root.key > key) {
-            root.leftChild = insertWithoutBalance(root.leftChild, key, value);
+            root.leftChild = insertWithoutBalance(root.leftChild, key, value)
         } else if (root.key < key) {
             root.rightChild = insertWithoutBalance(root.rightChild, key, value)
         } else if (root.key == key) {
@@ -147,34 +147,52 @@ class AVLTree<K : Comparable<K>, V> {
         return lowerBound
     }
 
-    private fun extractMax(node: TreeNode<K, V>?): Pair<K?, V?>{
+    private fun extractMax(node: TreeNode<K, V>?): Pair<TreeNode<K, V>?, TreeNode<K, V>?> {
+        if (node == null) {
+            return Pair(null, null)
         }
+        if (node.rightChild != null) {
+            val pair: Pair<TreeNode<K, V>?, TreeNode<K, V>?> = extractMax(node.rightChild)
+            node.rightChild = pair.second
+            return Pair<TreeNode<K, V>?, TreeNode<K, V>?>(pair.first, node)
+        }
+        return Pair<TreeNode<K, V>?, TreeNode<K, V>?>(node, node.leftChild)
     }
 
-    private fun deleteNodeWithoutBalance(rootNode: TreeNode<K, V>?, key: K):TreeNode<K, V>?{
+    private fun deleteNodeWithoutBalance(rootNode: TreeNode<K, V>?, key: K): TreeNode<K, V>? {
         if (rootNode == null)
             return null
-        if (key < rootNode.key){
+        if (key < rootNode.key) {
             rootNode.leftChild = deleteNodeWithoutBalance(rootNode.leftChild, key)
             return rootNode
-        } else if (key > rootNode.key){
+        } else if (key > rootNode.key) {
             rootNode.rightChild = deleteNodeWithoutBalance(rootNode.rightChild, key)
             return rootNode
         }
-        var newRoot: TreeNode<K, V>? = null
-        if (rootNode.leftChild == null){
+        val newRoot: TreeNode<K, V>?
+        if (rootNode.leftChild == null) {
             newRoot = rootNode.rightChild
-        }
-        else if (rootNode.rightChild == null){
+        } else if (rootNode.rightChild == null) {
             newRoot = rootNode.leftChild
+        } else {
+            val pair: Pair<TreeNode<K, V>?, TreeNode<K, V>?> = extractMax(rootNode.leftChild)
+            newRoot = pair.first
+            newRoot?.leftChild = pair.second
+            newRoot?.rightChild = rootNode.rightChild
         }
-        else{
-
-        }
+        return newRoot
     }
 
-    fun remove(key: K): V?{
-        var node: TreeNode<K, V>? = findNodeWithGivenKey(root, key) ?: return null
-        TODO()
+    private fun deleteNode(node: TreeNode<K, V>?) {
+        if (node == null)
+            return
+        root = deleteNodeWithoutBalance(root, node.key)
+    }
+
+    fun remove(key: K): V? {
+        val node: TreeNode<K, V> = findNodeWithGivenKey(root, key) ?: return null
+        val valueToReturn: V? = node.value
+        deleteNode(node)
+        return valueToReturn
     }
 }
