@@ -3,13 +3,17 @@ package homeworks.homework3.task1
 import java.lang.Integer.max
 
 class AVLTree<K : Comparable<K>, V> {
-    private var root: TreeNode<K, V>? = null
+    var root: TreeNode<K, V>? = null
     private fun getHeight(node: TreeNode<K, V>?): Int {
         return node?.height ?: 0
     }
 
+    fun height(): Int {
+        return getHeight(root)
+    }
+
     private fun updateHeight(node: TreeNode<K, V>?) {
-        node?.height = max(getHeight(node?.leftChild), getHeight(node?.rightChild))
+        node?.height = max(getHeight(node?.leftChild), getHeight(node?.rightChild)) + 1
     }
 
     private fun rotateLeft(node: TreeNode<K, V>?): TreeNode<K, V>? {
@@ -38,21 +42,22 @@ class AVLTree<K : Comparable<K>, V> {
         val left: Int = node.leftChild?.height ?: 0
         val right: Int = node.rightChild?.height ?: 0
         return right - left
+
     }
 
     private fun balance(node: TreeNode<K, V>?): TreeNode<K, V>? {
-        var newRoot: TreeNode<K, V>? = node
         if (getBalanceFactor(node) == 2) {
-            if (getBalanceFactor(root?.rightChild) == 1) {
+            if (getBalanceFactor(root?.rightChild) == -1) {
                 node?.rightChild = rotateRight(node?.rightChild)
             }
-            newRoot = rotateLeft(node)
-        } else if (getBalanceFactor(node) == -2) {
+            return rotateLeft(node)
+        }
+        if (getBalanceFactor(node) == -2) {
             if (getBalanceFactor(node?.leftChild) == 1)
                 node?.leftChild = rotateLeft(node?.leftChild)
-            newRoot = rotateRight(root)
+            return rotateRight(node)
         }
-        return newRoot
+        return node
     }
 
     private fun findNodeWithGivenKey(node: TreeNode<K, V>?, key: K): TreeNode<K, V>? {
@@ -67,24 +72,32 @@ class AVLTree<K : Comparable<K>, V> {
         return node
     }
 
-    private fun insertWithoutBalance(node: TreeNode<K, V>?, key: K, value: V): TreeNode<K, V> {
-        if (node == null) {
-            return TreeNode(value, key)
-        }
-        if (node.key > key) {
-            node.leftChild = insertWithoutBalance(node.leftChild, key, value)
-        } else if (node.key < key) {
-            node.rightChild = insertWithoutBalance(node.rightChild, key, value)
-        } else if (node.key == key) {
+    private fun insert(
+        node: TreeNode<K, V>?,
+        key: K,
+        value: V,
+        specialNodeForOldValue: TreeNode<K, V?>
+    ): TreeNode<K, V>? {
+        if (node == null)
+            return TreeNode(key, value)
+        if (key < node.key) {
+            node.leftChild = insert(node.leftChild, key, value, specialNodeForOldValue)
+        } else if (key > node.key) {
+            node.rightChild = insert(node.rightChild, key, value, specialNodeForOldValue)
+        } else {
+            specialNodeForOldValue.value = node.value
             node.value = value
         }
-        return node
+        updateHeight(node)
+        return balance(node)
     }
 
-    fun put(key: K, value: V) {
-        insertWithoutBalance(root, key, value)
-        root = balance(root)
+    fun put(key: K, value: V): V? {
+        val specialNodeForOldValue = TreeNode<K, V?>(key, null)
+        root = insert(root, key, value, specialNodeForOldValue)
+        return specialNodeForOldValue.value
     }
+
 
     fun hasKey(key: K): Boolean {
         var node: TreeNode<K, V>? = root
