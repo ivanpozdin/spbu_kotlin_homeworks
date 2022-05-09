@@ -10,9 +10,18 @@ class AVLTree<K : Comparable<K>, V>(
     override val keys: MutableSet<K>,
     override val values: MutableCollection<V>
 ) : MutableMap<K, V> {
+    init {
+        val iterator = entries.iterator()
+        iterator.forEach { put(it.key, it.value) }
+    }
+
     private var root: TreeNode<K, V>? = null
     private fun getHeight(node: TreeNode<K, V>?): Int {
         return node?.height ?: 0
+    }
+
+    fun height(): Int {
+        return getHeight(root)
     }
 
     private fun updateHeight(node: TreeNode<K, V>?) {
@@ -113,14 +122,16 @@ class AVLTree<K : Comparable<K>, V>(
         return Pair<TreeNode<K, V>?, TreeNode<K, V>?>(node, node.leftChild)
     }
 
-    private fun deleteNodeWithoutBalance(rootNode: TreeNode<K, V>?, key: K): TreeNode<K, V>? {
-        if (rootNode == null)
+    private fun deleteNode(rootNode: TreeNode<K, V>?, key: K?, specialNodeForValue: TreeNode<K?, V?>): TreeNode<K, V>? {
+        if (rootNode == null || key == null)
             return null
         if (key < rootNode.key) {
-            rootNode.leftChild = deleteNodeWithoutBalance(rootNode.leftChild, key)
+            rootNode.leftChild = deleteNode(rootNode.leftChild, key, specialNodeForValue)
         } else if (key > rootNode.key) {
-            rootNode.rightChild = deleteNodeWithoutBalance(rootNode.rightChild, key)
+            rootNode.rightChild = deleteNode(rootNode.rightChild, key, specialNodeForValue)
         } else {
+            specialNodeForValue.value = rootNode.value
+
             val newRoot: TreeNode<K, V>?
             if (rootNode.leftChild == null) {
                 newRoot = rootNode.rightChild
@@ -137,17 +148,10 @@ class AVLTree<K : Comparable<K>, V>(
         return balance(rootNode)
     }
 
-    private fun deleteNode(node: TreeNode<K, V>?) {
-        if (node == null)
-            return
-        root = deleteNodeWithoutBalance(root, node.key)
-    }
-
     override fun remove(key: K): V? {
-        val node: TreeNode<K, V> = findNodeWithGivenKey(root, key) ?: return null
-        val valueToReturn: V? = node.value
-        deleteNode(node)
-        return valueToReturn
+        val specialNodeForValue = TreeNode<K?, V?>(null, null)
+        root = deleteNode(root, key, specialNodeForValue)
+        return specialNodeForValue.value
     }
 
     override fun containsKey(key: K): Boolean {
