@@ -1,8 +1,14 @@
 package homeworks.homework3.task1
 
 import java.lang.Integer.max
-
-class AVLTree<K : Comparable<K>, V> {
+import kotlin.collections.MutableMap
+import kotlin.collections.MutableMap.MutableEntry
+class AVLTree<K : Comparable<K>, V>(
+    override val size: Int,
+    override val entries: MutableSet<MutableMap.MutableEntry<K, V>>,
+    override val keys: MutableSet<K>,
+    override val values: MutableCollection<V>
+) : MutableMap<K, V> {
     private var root: TreeNode<K, V>? = null
     private fun getHeight(node: TreeNode<K, V>?): Int {
         return node?.height ?: 0
@@ -57,16 +63,16 @@ class AVLTree<K : Comparable<K>, V> {
         return node
     }
 
-    private fun findNodeWithGivenKey(node: TreeNode<K, V>?, key: K): TreeNode<K, V>? {
-        if (node == null) {
+    private fun findNodeWithGivenKey(rootNode: TreeNode<K, V>?, key: K): TreeNode<K, V>? {
+        if (rootNode == null) {
             return null
         }
-        if (key > node.key) {
-            return findNodeWithGivenKey(node.rightChild, key)
-        } else if (key < node.key) {
-            return findNodeWithGivenKey(node.leftChild, key)
+        if (key > rootNode.key) {
+            return findNodeWithGivenKey(rootNode.rightChild, key)
+        } else if (key < rootNode.key) {
+            return findNodeWithGivenKey(rootNode.leftChild, key)
         }
-        return node
+        return rootNode
     }
 
     private fun insert(
@@ -88,9 +94,16 @@ class AVLTree<K : Comparable<K>, V> {
         return balance(node)
     }
 
-    fun put(key: K, value: V): V? {
+    override fun put(key: K, value: V): V? {
         val specialNodeForOldValue = TreeNode<K, V?>(key, null)
         root = insert(root, key, value, specialNodeForOldValue)
+        if (specialNodeForOldValue.value != null){
+            values.remove(specialNodeForOldValue.value)
+            values.add(value)
+        } else {
+            keys.add(key)
+            values.add(value)
+        }
         return specialNodeForOldValue.value
     }
 
@@ -156,10 +169,36 @@ class AVLTree<K : Comparable<K>, V> {
         root = deleteNodeWithoutBalance(root, node.key)
     }
 
-    fun remove(key: K): V? {
+    override fun remove(key: K): V? {
         val node: TreeNode<K, V> = findNodeWithGivenKey(root, key) ?: return null
         val valueToReturn: V? = node.value
         deleteNode(node)
         return valueToReturn
+    }
+
+    override fun containsKey(key: K): Boolean {
+        return keys.contains(key)
+    }
+
+    override fun containsValue(value: V): Boolean {
+        return values.contains(value)
+    }
+
+    override fun get(key: K): V? {
+        return findNodeWithGivenKey(root, key)?.value
+    }
+
+    override fun clear() {
+        keys.clear()
+        values.clear()
+        root = null
+    }
+
+    override fun isEmpty(): Boolean {
+        return root == null
+    }
+
+    override fun putAll(from: Map<out K, V>) {
+        TODO("Not yet implemented")
     }
 }
