@@ -1,19 +1,10 @@
 package homeworks.homework3.task1
 
 fun main() {
-    val treeMap = AVLTree<Int, Int>()
-    for (i in 1..9) {
-        treeMap.put(i, i * 10)
+    val treeMap = AVLTree<Int, Int>(0,mutableSetOf(), mutableSetOf(), mutableListOf())
+    print(treeMap.containsKey(50))
+    for (i in 1..100){
+        treeMap[i] = i
     }
-    for (i in 0..10) {
-        print("${treeMap.hasKey(i)}\n")
-        print("${treeMap.getValueFromKey(i)}\n")
-    }
-    print(treeMap.remove(1))
-    for (i in 0..10) {
-        print("${treeMap.hasKey(i)}\n")
-        print("${treeMap.getValueFromKey(i)}\n")
-    }
-    print("\n")
-    print(treeMap.remove(-1))
+    print(treeMap.containsValue(50))
 }

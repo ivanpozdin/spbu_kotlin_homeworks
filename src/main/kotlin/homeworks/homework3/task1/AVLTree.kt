@@ -1,8 +1,9 @@
 package homeworks.homework3.task1
 
 import java.lang.Integer.max
-import kotlin.collections.MutableMap
-import kotlin.collections.MutableMap.MutableEntry
+import java.util.*
+
+
 class AVLTree<K : Comparable<K>, V>(
     override val size: Int,
     override val entries: MutableSet<MutableMap.MutableEntry<K, V>>,
@@ -97,34 +98,7 @@ class AVLTree<K : Comparable<K>, V>(
     override fun put(key: K, value: V): V? {
         val specialNodeForOldValue = TreeNode<K, V?>(key, null)
         root = insert(root, key, value, specialNodeForOldValue)
-        if (specialNodeForOldValue.value != null){
-            values.remove(specialNodeForOldValue.value)
-            values.add(value)
-        } else {
-            keys.add(key)
-            values.add(value)
-        }
         return specialNodeForOldValue.value
-    }
-
-
-    fun hasKey(key: K): Boolean {
-        var node: TreeNode<K, V>? = root
-        while (node != null) {
-            node = if (key > node.key) {
-                node.rightChild
-            } else if (key < node.key) {
-                node.leftChild
-            } else {
-                return true
-            }
-        }
-        return false
-    }
-
-    fun getValueFromKey(key: K): V? {
-        val node: TreeNode<K, V>? = findNodeWithGivenKey(root, key)
-        return node?.value
     }
 
     private fun extractMax(node: TreeNode<K, V>?): Pair<TreeNode<K, V>?, TreeNode<K, V>?> {
@@ -177,11 +151,24 @@ class AVLTree<K : Comparable<K>, V>(
     }
 
     override fun containsKey(key: K): Boolean {
-        return keys.contains(key)
+        return findNodeWithGivenKey(root, key) != null
     }
 
     override fun containsValue(value: V): Boolean {
-        return values.contains(value)
+        val stack: Stack<TreeNode<K, V>?> = Stack<TreeNode<K, V>?>()
+        var current: TreeNode<K, V>? = root
+        while (current != null || stack.size > 0) {
+            while (current != null) {
+                stack.push(current)
+                current = current.leftChild
+            }
+            current = stack.pop()
+            if (current?.value == value) {
+                return true
+            }
+            current = current?.rightChild
+        }
+        return false
     }
 
     override fun get(key: K): V? {
@@ -189,8 +176,6 @@ class AVLTree<K : Comparable<K>, V>(
     }
 
     override fun clear() {
-        keys.clear()
-        values.clear()
         root = null
     }
 
@@ -199,6 +184,6 @@ class AVLTree<K : Comparable<K>, V>(
     }
 
     override fun putAll(from: Map<out K, V>) {
-        TODO("Not yet implemented")
+        from.iterator().forEach { put(it.key, it.value) }
     }
 }
