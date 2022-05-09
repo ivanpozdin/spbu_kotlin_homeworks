@@ -3,13 +3,9 @@ package homeworks.homework3.task1
 import java.lang.Integer.max
 
 class AVLTree<K : Comparable<K>, V> {
-    var root: TreeNode<K, V>? = null
+    private var root: TreeNode<K, V>? = null
     private fun getHeight(node: TreeNode<K, V>?): Int {
         return node?.height ?: 0
-    }
-
-    fun height(): Int {
-        return getHeight(root)
     }
 
     private fun updateHeight(node: TreeNode<K, V>?) {
@@ -46,6 +42,7 @@ class AVLTree<K : Comparable<K>, V> {
     }
 
     private fun balance(node: TreeNode<K, V>?): TreeNode<K, V>? {
+        updateHeight(node)
         if (getBalanceFactor(node) == 2) {
             if (getBalanceFactor(root?.rightChild) == -1) {
                 node?.rightChild = rotateRight(node?.rightChild)
@@ -88,7 +85,6 @@ class AVLTree<K : Comparable<K>, V> {
             specialNodeForOldValue.value = node.value
             node.value = value
         }
-        updateHeight(node)
         return balance(node)
     }
 
@@ -135,23 +131,23 @@ class AVLTree<K : Comparable<K>, V> {
             return null
         if (key < rootNode.key) {
             rootNode.leftChild = deleteNodeWithoutBalance(rootNode.leftChild, key)
-            return rootNode
         } else if (key > rootNode.key) {
             rootNode.rightChild = deleteNodeWithoutBalance(rootNode.rightChild, key)
-            return rootNode
-        }
-        val newRoot: TreeNode<K, V>?
-        if (rootNode.leftChild == null) {
-            newRoot = rootNode.rightChild
-        } else if (rootNode.rightChild == null) {
-            newRoot = rootNode.leftChild
         } else {
-            val pair: Pair<TreeNode<K, V>?, TreeNode<K, V>?> = extractMax(rootNode.leftChild)
-            newRoot = pair.first
-            newRoot?.leftChild = pair.second
-            newRoot?.rightChild = rootNode.rightChild
+            val newRoot: TreeNode<K, V>?
+            if (rootNode.leftChild == null) {
+                newRoot = rootNode.rightChild
+            } else if (rootNode.rightChild == null) {
+                newRoot = rootNode.leftChild
+            } else {
+                val pair: Pair<TreeNode<K, V>?, TreeNode<K, V>?> = extractMax(rootNode.leftChild)
+                newRoot = pair.first
+                newRoot?.leftChild = pair.second
+                newRoot?.rightChild = rootNode.rightChild
+            }
+            return balance(newRoot)
         }
-        return newRoot
+        return balance(rootNode)
     }
 
     private fun deleteNode(node: TreeNode<K, V>?) {
