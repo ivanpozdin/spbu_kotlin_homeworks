@@ -1,8 +1,7 @@
 package homeworks.homework3.task1
 
 import java.lang.Integer.max
-import java.util.*
-
+import java.util.Stack
 
 class AVLTree<K : Comparable<K>, V>(
     override val size: Int,
@@ -18,10 +17,6 @@ class AVLTree<K : Comparable<K>, V>(
     private var root: TreeNode<K, V>? = null
     private fun getHeight(node: TreeNode<K, V>?): Int {
         return node?.height ?: 0
-    }
-
-    fun height(): Int {
-        return getHeight(root)
     }
 
     private fun updateHeight(node: TreeNode<K, V>?) {
@@ -46,7 +41,6 @@ class AVLTree<K : Comparable<K>, V>(
         return child
     }
 
-
     private fun getBalanceFactor(node: TreeNode<K, V>?): Int {
         if (node == null) {
             return 0
@@ -54,13 +48,12 @@ class AVLTree<K : Comparable<K>, V>(
         val left: Int = node.leftChild?.height ?: 0
         val right: Int = node.rightChild?.height ?: 0
         return right - left
-
     }
 
     private fun balance(node: TreeNode<K, V>?): TreeNode<K, V>? {
         updateHeight(node)
         if (getBalanceFactor(node) == 2) {
-            if (getBalanceFactor(root?.rightChild) == -1) {
+            if (getBalanceFactor(node?.rightChild) == -1) {
                 node?.rightChild = rotateRight(node?.rightChild)
             }
             return rotateLeft(node)
