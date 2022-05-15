@@ -1,6 +1,6 @@
 package homeworks.homework3.task1
 
-import java.util.Stack
+import java.util.*
 
 class AVLTree<K : Comparable<K>, V>(
     override val size: Int,
@@ -14,6 +14,10 @@ class AVLTree<K : Comparable<K>, V>(
     }
 
     private var root: TreeNode<K, V>? = null
+
+    fun getTreeHeight(): Int {
+        return root?.getHeight() ?: 0
+    }
 
     override fun put(key: K, value: V): V? {
         val specialArgumentForOldValue = ValueOrNull<V>()

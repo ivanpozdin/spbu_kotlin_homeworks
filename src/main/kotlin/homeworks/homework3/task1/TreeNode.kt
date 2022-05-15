@@ -9,6 +9,10 @@ class TreeNode<K : Comparable<K>, V>(private var key: K, var value: V) {
         height = Integer.max((leftChild?.height ?: 0), (rightChild?.height ?: 0)) + 1
     }
 
+    fun getHeight(): Int {
+        return height
+    }
+
     private fun rotateLeft(): TreeNode<K, V>? {
         val child: TreeNode<K, V>? = rightChild
         rightChild = child?.leftChild
@@ -41,7 +45,7 @@ class TreeNode<K : Comparable<K>, V>(private var key: K, var value: V) {
                 rightChild = rightChild?.rotateRight()
             }
             nodeToReturn = rotateLeft()
-        } else if (getBalanceFactor() == (-1)*2) {
+        } else if (getBalanceFactor() == (-1) * 2) {
             if (leftChild?.getBalanceFactor() == 1) leftChild = leftChild?.rotateLeft()
             nodeToReturn = rotateRight()
         } else {
