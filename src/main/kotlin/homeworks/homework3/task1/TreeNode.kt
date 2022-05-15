@@ -91,7 +91,9 @@ class TreeNode<K : Comparable<K>, V>(private var key: K, var value: V) {
     }
 
     fun deleteNode(
-        key: K?, oldValue: ValueOrNull<V>, rootNode: TreeNode<K, V>? = this
+        key: K?,
+        oldValue: ValueOrNull<V>,
+        rootNode: TreeNode<K, V>? = this
     ): TreeNode<K, V>? {
         var newRoot: TreeNode<K, V>? = rootNode
         if (newRoot == null || key == null) {
