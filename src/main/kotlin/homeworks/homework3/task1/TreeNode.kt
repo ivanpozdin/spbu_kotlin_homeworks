@@ -36,14 +36,12 @@ class TreeNode<K : Comparable<K>, V>(private var key: K, var value: V) {
     private fun balance(): TreeNode<K, V>? {
         updateHeight()
         val nodeToReturn: TreeNode<K, V>?
-        val leftCase = 2
-        val rightCase = -2
-        if (getBalanceFactor() == leftCase) {
+        if (getBalanceFactor() == 2) {
             if (rightChild?.getBalanceFactor() == -1) {
                 rightChild = rightChild?.rotateRight()
             }
             nodeToReturn = rotateLeft()
-        } else if (getBalanceFactor() == rightCase) {
+        } else if (getBalanceFactor() == (-1)*2) {
             if (leftChild?.getBalanceFactor() == 1) leftChild = leftChild?.rotateLeft()
             nodeToReturn = rotateRight()
         } else {
