@@ -53,7 +53,7 @@ internal class AVLTreeTest {
         var isBiggerThanMinPossibleHeight = treeMap.getTreeHeight() >= ceil(log2(n + 1.0))
         var real = isBiggerThanMinPossibleHeight && isSmallerThanMaxPossibleHeight
         assertEquals(true, real)
-        //проверка высоты после удаления элементов
+        // проверка высоты после удаления элементов
         for (i in 901..1100) {
             treeMap.remove(i)
         }

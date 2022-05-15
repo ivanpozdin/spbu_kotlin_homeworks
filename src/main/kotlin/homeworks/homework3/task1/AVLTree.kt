@@ -1,6 +1,6 @@
 package homeworks.homework3.task1
 
-import java.util.*
+import java.util.Stack
 
 class AVLTree<K : Comparable<K>, V>(
     override val size: Int,
