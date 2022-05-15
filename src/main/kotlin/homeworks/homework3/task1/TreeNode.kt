@@ -61,15 +61,15 @@ class TreeNode<K : Comparable<K>, V>(private var key: K, var value: V) {
     }
 
     fun insert(
-        key: K, value: V, specialArgumentForOldValue: ValueOrNull<V>, node: TreeNode<K, V>? = this
+        key: K, value: V, oldValue: ValueOrNull<V>, node: TreeNode<K, V>? = this
     ): TreeNode<K, V>? {
         if (node == null) return TreeNode(key, value)
         if (key < node.key) {
-            node.leftChild = insert(key, value, specialArgumentForOldValue, node.leftChild)
+            node.leftChild = insert(key, value, oldValue, node.leftChild)
         } else if (key > node.key) {
-            node.rightChild = insert(key, value, specialArgumentForOldValue, node.rightChild)
+            node.rightChild = insert(key, value, oldValue, node.rightChild)
         } else {
-            specialArgumentForOldValue.value = node.value
+            oldValue.value = node.value
             node.value = value
         }
         return node.balance()
@@ -88,17 +88,17 @@ class TreeNode<K : Comparable<K>, V>(private var key: K, var value: V) {
     }
 
     fun deleteNode(
-        key: K?, specialArgumentForOldValue: ValueOrNull<V>, rootNode: TreeNode<K, V>? = this
+        key: K?, oldValue: ValueOrNull<V>, rootNode: TreeNode<K, V>? = this
     ): TreeNode<K, V>? {
         var newRoot: TreeNode<K, V>? = rootNode
         if (newRoot == null || key == null) {
             newRoot = null
         } else if (key < newRoot.key) {
-            newRoot.leftChild = deleteNode(key, specialArgumentForOldValue, newRoot.leftChild)
+            newRoot.leftChild = deleteNode(key, oldValue, newRoot.leftChild)
         } else if (key > newRoot.key) {
-            newRoot.rightChild = deleteNode(key, specialArgumentForOldValue, newRoot.rightChild)
+            newRoot.rightChild = deleteNode(key, oldValue, newRoot.rightChild)
         } else {
-            specialArgumentForOldValue.value = newRoot.value
+            oldValue.value = newRoot.value
             if (newRoot.leftChild == null) {
                 newRoot = newRoot.rightChild
             } else if (newRoot.rightChild == null) {
