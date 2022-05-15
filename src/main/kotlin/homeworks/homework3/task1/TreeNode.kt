@@ -61,7 +61,10 @@ class TreeNode<K : Comparable<K>, V>(private var key: K, var value: V) {
     }
 
     fun insert(
-        key: K, value: V, oldValue: ValueOrNull<V>, node: TreeNode<K, V>? = this
+        key: K,
+        value: V,
+        oldValue: ValueOrNull<V>,
+        node: TreeNode<K, V>? = this
     ): TreeNode<K, V>? {
         if (node == null) return TreeNode(key, value)
         if (key < node.key) {
