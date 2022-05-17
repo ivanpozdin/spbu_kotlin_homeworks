@@ -60,7 +60,6 @@ class TreeNode<K : Comparable<K>, V>(private var key: K, var value: V) {
             else -> this
         }
 
-
     fun insert(
         key: K,
         value: V,
