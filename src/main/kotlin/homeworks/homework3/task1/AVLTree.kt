@@ -2,7 +2,7 @@ package homeworks.homework3.task1
 
 import java.util.Stack
 
-class AVLTree<K : Comparable<K>, V>: MutableMap<K, V> {
+class AVLTree<K : Comparable<K>, V> : MutableMap<K, V> {
     override val size: Int
         get() {
             TODO()
@@ -23,7 +23,7 @@ class AVLTree<K : Comparable<K>, V>: MutableMap<K, V> {
     private var root: TreeNode<K, V>? = null
 
     fun getTreeHeight(): Int {
-        return root?.getHeight() ?: 0
+        return root?.getHeight ?: 0
     }
 
     override fun put(key: K, value: V): V? {

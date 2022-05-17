@@ -12,13 +12,11 @@ class TreeNode<K : Comparable<K>, V>(private var key: K, var value: V) {
     var leftChild: TreeNode<K, V>? = null
     var rightChild: TreeNode<K, V>? = null
     private var height: Int = 1
+    val getHeight: Int get() = height
+
 
     private fun updateHeight() {
         height = Integer.max((leftChild?.height ?: 0), (rightChild?.height ?: 0)) + 1
-    }
-
-    fun getHeight(): Int {
-        return height
     }
 
     private fun rotateLeft(): TreeNode<K, V>? {
@@ -126,12 +124,11 @@ class TreeNode<K : Comparable<K>, V>(private var key: K, var value: V) {
         var str = ""
         var localSpace = space
         localSpace += COUNT
-        str += rightChild?.getTreeDiagram(localSpace)?:""
+        str += rightChild?.getTreeDiagram(localSpace)?: ""
         str += "\n"
         for (i in COUNT until localSpace) str += " "
         str += key.toString() + "\n"
-        str += leftChild?.getTreeDiagram(localSpace)?:""
+        str += leftChild?.getTreeDiagram(localSpace)?: ""
         return str
     }
-
 }
