@@ -118,7 +118,6 @@ class TreeNode<K : Comparable<K>, V>(private var key: K, var value: V) {
         }
     }
 
-
     fun getTreeDiagram(space: Int = 0): String {
         var str = ""
         var localSpace = space
