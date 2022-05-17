@@ -6,6 +6,7 @@ class TreeNode<K : Comparable<K>, V>(private var key: K, var value: V) {
         const val RIGHT_CASE = -2
         const val LEFT_RIGHT_CASE = -1
         const val RIGHT_LEFT_CASE = 1
+        const val COUNT = 5
     }
 
     var leftChild: TreeNode<K, V>? = null
@@ -120,4 +121,17 @@ class TreeNode<K : Comparable<K>, V>(private var key: K, var value: V) {
         }
         return newRoot?.balance()
     }
+
+    fun getTreeDiagram(space: Int = 0): String {
+        var str = ""
+        var localSpace = space
+        localSpace += COUNT
+        str += rightChild?.getTreeDiagram(localSpace)?:""
+        str += "\n"
+        for (i in COUNT until localSpace) str += " "
+        str += key.toString() + "\n"
+        str += leftChild?.getTreeDiagram(localSpace)?:""
+        return str
+    }
+
 }

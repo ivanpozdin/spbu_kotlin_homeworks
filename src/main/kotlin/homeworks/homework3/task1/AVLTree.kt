@@ -2,16 +2,23 @@ package homeworks.homework3.task1
 
 import java.util.Stack
 
-class AVLTree<K : Comparable<K>, V>(
-    override val size: Int,
-    override val entries: MutableSet<MutableMap.MutableEntry<K, V>>,
-    override val keys: MutableSet<K>,
+class AVLTree<K : Comparable<K>, V>: MutableMap<K, V> {
+    override val size: Int
+        get() {
+            TODO()
+        }
+    override val entries: MutableSet<MutableMap.MutableEntry<K, V>>
+        get() {
+            TODO()
+        }
+    override val keys: MutableSet<K>
+        get() {
+            TODO()
+        }
     override val values: MutableCollection<V>
-) : MutableMap<K, V> {
-    init {
-        val iterator = entries.iterator()
-        iterator.forEach { put(it.key, it.value) }
-    }
+        get() {
+            TODO()
+        }
 
     private var root: TreeNode<K, V>? = null
 
@@ -62,5 +69,9 @@ class AVLTree<K : Comparable<K>, V>(
 
     override fun putAll(from: Map<out K, V>) {
         from.iterator().forEach { put(it.key, it.value) }
+    }
+
+    override fun toString(): String {
+        return root?.getTreeDiagram() ?: ""
     }
 }

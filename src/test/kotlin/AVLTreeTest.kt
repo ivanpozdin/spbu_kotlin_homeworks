@@ -10,7 +10,7 @@ internal class AVLTreeTest {
     fun insertionTest() {
         val expected = mutableSetOf<Int>()
         val real = mutableSetOf<Int>()
-        val treeMap = AVLTree<Int, Int>(0, mutableSetOf(), mutableSetOf(), mutableListOf())
+        val treeMap = AVLTree<Int, Int>()
         for (i in 1..1024) {
             expected.add(i * 10)
         }
@@ -32,7 +32,7 @@ internal class AVLTreeTest {
         val expectedMinus500 = false
         val expected1501 = false
 
-        val treeMap = AVLTree<Int, Int>(0, mutableSetOf(), mutableSetOf(), mutableListOf())
+        val treeMap = AVLTree<Int, Int>()
         for (i in 1..1500) {
             treeMap[i] = i * 10
         }
@@ -45,7 +45,7 @@ internal class AVLTreeTest {
     @Test
     fun isHeightCorrectTest() {
         var n = 1500
-        val treeMap = AVLTree<Int, Int>(0, mutableSetOf(), mutableSetOf(), mutableListOf())
+        val treeMap = AVLTree<Int, Int>()
         for (i in 1..n) {
             treeMap[i] = i * 10
         }
@@ -66,7 +66,7 @@ internal class AVLTreeTest {
 
     @Test
     fun isEmptyTest() {
-        val treeMap = AVLTree<Int, Int>(0, mutableSetOf(), mutableSetOf(), mutableListOf())
+        val treeMap = AVLTree<Int, Int>()
         assertEquals(true, treeMap.isEmpty())
         treeMap[4] = 40
         assertEquals(false, treeMap.isEmpty())
@@ -76,7 +76,7 @@ internal class AVLTreeTest {
 
     @Test
     fun putAllTest() {
-        val treeMap = AVLTree<Int, Int>(0, mutableSetOf(), mutableSetOf(), mutableListOf())
+        val treeMap = AVLTree<Int, Int>()
         val map = mapOf(1 to 10, 2 to 20, 3 to 30, 100 to 1000)
         treeMap.putAll(map)
         val expected = mutableSetOf<Int?>(10, 20, 30, 1000)
@@ -91,7 +91,7 @@ internal class AVLTreeTest {
 
     @Test
     fun removeNotExistedKey() {
-        val treeMap = AVLTree<Int, Int>(0, mutableSetOf(), mutableSetOf(), mutableListOf())
+        val treeMap = AVLTree<Int, Int>()
         val n = 1500
         for (i in 1..n) {
             treeMap[i] = i * 10
@@ -103,7 +103,7 @@ internal class AVLTreeTest {
 
     @Test
     fun removeOldValueTest() {
-        val treeMap = AVLTree<Int, Int>(0, mutableSetOf(), mutableSetOf(), mutableListOf())
+        val treeMap = AVLTree<Int, Int>()
         val n = 1500
         for (i in 1..n) {
             treeMap[i] = i * 10
@@ -115,7 +115,7 @@ internal class AVLTreeTest {
 
     @Test
     fun insertOldValueTest() {
-        val treeMap = AVLTree<Int, Int>(0, mutableSetOf(), mutableSetOf(), mutableListOf())
+        val treeMap = AVLTree<Int, Int>()
         val n = 1500
         for (i in 1..n) {
             treeMap[i] = i * 10
