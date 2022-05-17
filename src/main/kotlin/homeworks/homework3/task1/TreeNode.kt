@@ -1,6 +1,13 @@
 package homeworks.homework3.task1
 
 class TreeNode<K : Comparable<K>, V>(private var key: K, var value: V) {
+    companion object {
+        const val LEFT_CASE = 2
+        const val RIGHT_CASE = -2
+        const val LEFT_RIGHT_CASE = -1
+        const val RIGHT_LEFT_CASE = 1
+    }
+
     var leftChild: TreeNode<K, V>? = null
     var rightChild: TreeNode<K, V>? = null
     private var height: Int = 1
@@ -40,13 +47,13 @@ class TreeNode<K : Comparable<K>, V>(private var key: K, var value: V) {
     private fun balance(): TreeNode<K, V>? {
         updateHeight()
         val nodeToReturn: TreeNode<K, V>?
-        if (getBalanceFactor() == 2) {
-            if (rightChild?.getBalanceFactor() == -1) {
+        if (getBalanceFactor() == LEFT_CASE) {
+            if (rightChild?.getBalanceFactor() == LEFT_RIGHT_CASE) {
                 rightChild = rightChild?.rotateRight()
             }
             nodeToReturn = rotateLeft()
-        } else if (getBalanceFactor() == (-1) * 2) {
-            if (leftChild?.getBalanceFactor() == 1) leftChild = leftChild?.rotateLeft()
+        } else if (getBalanceFactor() == RIGHT_CASE) {
+            if (leftChild?.getBalanceFactor() == RIGHT_LEFT_CASE) leftChild = leftChild?.rotateLeft()
             nodeToReturn = rotateRight()
         } else {
             nodeToReturn = this
