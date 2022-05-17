@@ -14,7 +14,7 @@ class TreeNode<K : Comparable<K>, V>(private var key: K, var value: V) {
     }
 
     private fun rotateLeft(): TreeNode<K, V>? {
-        val child: TreeNode<K, V>? = rightChild
+        val child = rightChild
         rightChild = child?.leftChild
         child?.leftChild = this
         updateHeight()
@@ -23,7 +23,7 @@ class TreeNode<K : Comparable<K>, V>(private var key: K, var value: V) {
     }
 
     private fun rotateRight(): TreeNode<K, V>? {
-        val child: TreeNode<K, V>? = leftChild
+        val child = leftChild
         leftChild = child?.rightChild
         child?.rightChild = this
         updateHeight()
@@ -54,15 +54,12 @@ class TreeNode<K : Comparable<K>, V>(private var key: K, var value: V) {
         return nodeToReturn
     }
 
-    fun findNodeWithGivenKey(givenKey: K, rootNode: TreeNode<K, V>? = this): TreeNode<K, V>? {
-        var nodeToReturn: TreeNode<K, V>? = rootNode
-        if (rootNode != null && givenKey > rootNode.key) {
-            nodeToReturn = findNodeWithGivenKey(givenKey, rootNode.rightChild)
-        } else if (rootNode != null && givenKey < rootNode.key) {
-            nodeToReturn = findNodeWithGivenKey(givenKey, rootNode.leftChild)
+    fun findNodeWithGivenKey(givenKey: K): TreeNode<K, V>? = when {
+            givenKey > key -> rightChild?.findNodeWithGivenKey(givenKey)
+            givenKey < key -> leftChild?.findNodeWithGivenKey(givenKey)
+            else -> this
         }
-        return nodeToReturn
-    }
+
 
     fun insert(
         key: K,
