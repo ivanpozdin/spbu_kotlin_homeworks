@@ -31,9 +31,7 @@ class AVLTree<K : Comparable<K>, V>(
         return oldValue
     }
 
-    override fun containsKey(key: K): Boolean {
-        return root?.findNodeWithGivenKey(key) != null
-    }
+    override fun containsKey(key: K): Boolean = (root?.findNodeWithGivenKey(key) != null)
 
     override fun containsValue(value: V): Boolean {
         val stack: Stack<TreeNode<K, V>?> = Stack<TreeNode<K, V>?>()
@@ -52,9 +50,7 @@ class AVLTree<K : Comparable<K>, V>(
         return false
     }
 
-    override fun get(key: K): V? {
-        return root?.findNodeWithGivenKey(key)?.value
-    }
+    override fun get(key: K): V? = root?.findNodeWithGivenKey(key)?.value
 
     override fun clear() {
         root = null
