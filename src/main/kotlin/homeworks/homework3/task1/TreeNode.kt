@@ -68,19 +68,19 @@ class TreeNode<K : Comparable<K>, V>(private var key: K, var value: V) {
     }
 
     fun insert(
-        key: K,
-        value: V,
-        node: TreeNode<K, V>? = this
+        givenKey: K,
+        givenValue: V
     ): TreeNode<K, V>? {
-        if (node == null) return TreeNode(key, value)
-        if (key < node.key) {
-            node.leftChild = insert(key, value, node.leftChild)
-        } else if (key > node.key) {
-            node.rightChild = insert(key, value, node.rightChild)
-        } else {
-            node.value = value
+        when {
+            givenKey < key -> {
+                leftChild = leftChild?.insert(givenKey, givenValue) ?: TreeNode(givenKey, givenValue)
+            }
+            givenKey > key -> {
+                rightChild = rightChild?.insert(givenKey, givenValue) ?: TreeNode(givenKey, givenValue)
+            }
+            else -> value = givenValue
         }
-        return node.balance()
+        return balance()
     }
 
     private fun extractMax(): Pair<TreeNode<K, V>?, TreeNode<K, V>?> {
