@@ -54,11 +54,13 @@ class TreeNode<K : Comparable<K>, V>(private var key: K, var value: V) {
         return nodeToReturn
     }
 
-    fun findNodeWithGivenKey(givenKey: K): TreeNode<K, V>? = when {
+    fun findNodeWithGivenKey(givenKey: K): TreeNode<K, V>? {
+        return when {
             givenKey > key -> rightChild?.findNodeWithGivenKey(givenKey)
             givenKey < key -> leftChild?.findNodeWithGivenKey(givenKey)
             else -> this
         }
+    }
 
     fun insert(
         key: K,
