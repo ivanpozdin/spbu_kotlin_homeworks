@@ -82,16 +82,14 @@ class TreeNode<K : Comparable<K>, V>(private var key: K, var value: V) {
         return node.balance()
     }
 
-    private fun extractMax(node: TreeNode<K, V>? = this): Pair<TreeNode<K, V>?, TreeNode<K, V>?> {
-        val pairToReturn: Pair<TreeNode<K, V>?, TreeNode<K, V>?>
-        if (node?.rightChild != null) {
-            val pair: Pair<TreeNode<K, V>?, TreeNode<K, V>?> = extractMax(node.rightChild)
-            node.rightChild = pair.second
-            pairToReturn = Pair<TreeNode<K, V>?, TreeNode<K, V>?>(pair.first, node)
+    private fun extractMax(): Pair<TreeNode<K, V>?, TreeNode<K, V>?> {
+        return if (rightChild != null) {
+            val pair: Pair<TreeNode<K, V>?, TreeNode<K, V>?> = rightChild?.extractMax() ?: Pair(null, null)
+            rightChild = pair.second
+            Pair<TreeNode<K, V>?, TreeNode<K, V>?>(pair.first, this)
         } else {
-            pairToReturn = Pair(node, node?.leftChild)
+            Pair(this, leftChild)
         }
-        return pairToReturn
     }
 
     fun deleteNode(
