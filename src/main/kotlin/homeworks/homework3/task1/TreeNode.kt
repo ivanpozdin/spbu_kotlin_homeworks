@@ -94,30 +94,30 @@ class TreeNode<K : Comparable<K>, V>(private var key: K, var value: V) {
     }
 
     fun deleteNode(
-        key: K?,
-        rootNode: TreeNode<K, V>? = this
+        givenKey: K?
     ): TreeNode<K, V>? {
-        var newRoot: TreeNode<K, V>? = rootNode
-        if (newRoot == null || key == null) {
-            newRoot = null
-        } else if (key < newRoot.key) {
-            newRoot.leftChild = deleteNode(key, newRoot.leftChild)
-        } else if (key > newRoot.key) {
-            newRoot.rightChild = deleteNode(key, newRoot.rightChild)
-        } else {
-            if (newRoot.leftChild == null) {
-                newRoot = newRoot.rightChild
-            } else if (newRoot.rightChild == null) {
-                newRoot = newRoot.leftChild
-            } else {
-                val pair: Pair<TreeNode<K, V>?, TreeNode<K, V>?>? = newRoot.leftChild?.extractMax()
-                newRoot = pair?.first
+        return when {
+            givenKey == null -> null
+            givenKey < key -> {
+                leftChild = leftChild?.deleteNode(givenKey)
+                this.balance()
+            }
+            givenKey > key -> {
+                rightChild = rightChild?.deleteNode(givenKey)
+                this.balance()
+            }
+            leftChild == null -> rightChild
+            rightChild == null -> leftChild
+            else -> { // case, when (key == givenKey) and (this) has all children
+                val pair: Pair<TreeNode<K, V>?, TreeNode<K, V>?>? = leftChild?.extractMax()
+                val newRoot = pair?.first
                 newRoot?.leftChild = pair?.second
-                newRoot?.rightChild = rootNode?.rightChild
+                newRoot?.rightChild = rightChild
+                newRoot?.balance()
             }
         }
-        return newRoot?.balance()
     }
+
 
     fun getTreeDiagram(space: Int = 0): String {
         var str = ""
