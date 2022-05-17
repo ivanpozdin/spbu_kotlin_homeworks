@@ -14,7 +14,6 @@ class TreeNode<K : Comparable<K>, V>(private var key: K, var value: V) {
     private var height: Int = 1
     val getHeight: Int get() = height
 
-
     private fun updateHeight() {
         height = Integer.max((leftChild?.height ?: 0), (rightChild?.height ?: 0)) + 1
     }
@@ -124,11 +123,11 @@ class TreeNode<K : Comparable<K>, V>(private var key: K, var value: V) {
         var str = ""
         var localSpace = space
         localSpace += COUNT
-        str += rightChild?.getTreeDiagram(localSpace)?: ""
+        str += rightChild?.getTreeDiagram(localSpace) ?: ""
         str += "\n"
-        for (i in COUNT until localSpace) str += " "
+        repeat(localSpace - COUNT) { str += " " }
         str += key.toString() + "\n"
-        str += leftChild?.getTreeDiagram(localSpace)?: ""
+        str += leftChild?.getTreeDiagram(localSpace) ?: ""
         return str
     }
 }
