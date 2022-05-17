@@ -20,16 +20,15 @@ class AVLTree<K : Comparable<K>, V>(
     }
 
     override fun put(key: K, value: V): V? {
-        val specialArgumentForOldValue = ValueOrNull<V>()
-
-        root = root?.insert(key, value, specialArgumentForOldValue) ?: TreeNode(key, value)
-        return specialArgumentForOldValue.value
+        val oldValue = get(key)
+        root = root?.insert(key, value) ?: TreeNode(key, value)
+        return oldValue
     }
 
     override fun remove(key: K): V? {
-        val specialArgumentForOldValue = ValueOrNull<V>()
-        root = root?.deleteNode(key, specialArgumentForOldValue)
-        return specialArgumentForOldValue.value
+        val oldValue = get(key)
+        root = root?.deleteNode(key)
+        return oldValue
     }
 
     override fun containsKey(key: K): Boolean {

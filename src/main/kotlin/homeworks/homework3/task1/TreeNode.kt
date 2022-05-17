@@ -67,16 +67,14 @@ class TreeNode<K : Comparable<K>, V>(private var key: K, var value: V) {
     fun insert(
         key: K,
         value: V,
-        oldValue: ValueOrNull<V>,
         node: TreeNode<K, V>? = this
     ): TreeNode<K, V>? {
         if (node == null) return TreeNode(key, value)
         if (key < node.key) {
-            node.leftChild = insert(key, value, oldValue, node.leftChild)
+            node.leftChild = insert(key, value, node.leftChild)
         } else if (key > node.key) {
-            node.rightChild = insert(key, value, oldValue, node.rightChild)
+            node.rightChild = insert(key, value, node.rightChild)
         } else {
-            oldValue.value = node.value
             node.value = value
         }
         return node.balance()
@@ -94,18 +92,16 @@ class TreeNode<K : Comparable<K>, V>(private var key: K, var value: V) {
 
     fun deleteNode(
         key: K?,
-        oldValue: ValueOrNull<V>,
         rootNode: TreeNode<K, V>? = this
     ): TreeNode<K, V>? {
         var newRoot: TreeNode<K, V>? = rootNode
         if (newRoot == null || key == null) {
             newRoot = null
         } else if (key < newRoot.key) {
-            newRoot.leftChild = deleteNode(key, oldValue, newRoot.leftChild)
+            newRoot.leftChild = deleteNode(key, newRoot.leftChild)
         } else if (key > newRoot.key) {
-            newRoot.rightChild = deleteNode(key, oldValue, newRoot.rightChild)
+            newRoot.rightChild = deleteNode(key, newRoot.rightChild)
         } else {
-            oldValue.value = newRoot.value
             if (newRoot.leftChild == null) {
                 newRoot = newRoot.rightChild
             } else if (newRoot.rightChild == null) {
