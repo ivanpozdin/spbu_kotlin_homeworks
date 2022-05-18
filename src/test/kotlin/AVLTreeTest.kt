@@ -3,7 +3,10 @@ import org.junit.jupiter.api.Test
 import kotlin.math.ceil
 import kotlin.math.floor
 import kotlin.math.log2
-import kotlin.test.assertEquals
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.MethodSource
 
 internal class AVLTreeTest {
     @Test
@@ -25,22 +28,23 @@ internal class AVLTreeTest {
         assertEquals(expected, real)
     }
 
-    @Test
-    fun containsValueTest() {
-        val expected500 = true
-        val expected1500 = true
-        val expectedMinus500 = false
-        val expected1501 = false
-
+    @ParameterizedTest(name = "case {index}")
+    @MethodSource("getInputData")
+    fun containsValueTest(expected: Boolean, testNumber: Int) {
         val treeMap = AVLTree<Int, Int>()
         for (i in 1..1500) {
             treeMap[i] = i * 10
         }
-        assertEquals(expected500, treeMap.containsValue(500))
-        assertEquals(expectedMinus500, treeMap.containsValue(-500))
-        assertEquals(expected1500, treeMap.containsValue(1500))
-        assertEquals(expected1501, treeMap.containsValue(1501))
+        assertEquals(expected, treeMap.containsValue(testNumber))
     }
+
+    companion object {
+        @JvmStatic
+        fun getInputData() = listOf(
+            Arguments.of(true, 500), Arguments.of(false, -500), Arguments.of(true, 1500), Arguments.of(false, 1501)
+        )
+    }
+
 
     @Test
     fun isHeightCorrectTest() {
