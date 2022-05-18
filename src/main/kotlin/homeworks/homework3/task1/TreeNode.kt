@@ -13,6 +13,8 @@ class TreeNode<K : Comparable<K>, V>(private var key: K, var value: V) {
     var rightChild: TreeNode<K, V>? = null
     private var height: Int = 1
     val getHeight: Int get() = height
+    val getKey: K get() = key
+    val getValue: V get() = value
 
     private fun updateHeight() {
         height = Integer.max((leftChild?.height ?: 0), (rightChild?.height ?: 0)) + 1
