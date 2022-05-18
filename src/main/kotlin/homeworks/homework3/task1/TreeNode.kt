@@ -44,19 +44,19 @@ class TreeNode<K : Comparable<K>, V>(private var key: K, var value: V) {
 
     private fun balance(): TreeNode<K, V>? {
         updateHeight()
-        val nodeToReturn: TreeNode<K, V>?
-        if (getBalanceFactor() == LEFT_CASE) {
+        return if (getBalanceFactor() == LEFT_CASE) {
             if (rightChild?.getBalanceFactor() == LEFT_RIGHT_CASE) {
                 rightChild = rightChild?.rotateRight()
             }
-            nodeToReturn = rotateLeft()
+            rotateLeft()
         } else if (getBalanceFactor() == RIGHT_CASE) {
-            if (leftChild?.getBalanceFactor() == RIGHT_LEFT_CASE) leftChild = leftChild?.rotateLeft()
-            nodeToReturn = rotateRight()
+            if (leftChild?.getBalanceFactor() == RIGHT_LEFT_CASE) {
+                leftChild = leftChild?.rotateLeft()
+            }
+            rotateRight()
         } else {
-            nodeToReturn = this
+            this
         }
-        return nodeToReturn
     }
 
     fun findNodeWithGivenKey(givenKey: K): TreeNode<K, V>? {
@@ -68,8 +68,7 @@ class TreeNode<K : Comparable<K>, V>(private var key: K, var value: V) {
     }
 
     fun insert(
-        givenKey: K,
-        givenValue: V
+        givenKey: K, givenValue: V
     ): TreeNode<K, V>? {
         when {
             givenKey < key -> {
