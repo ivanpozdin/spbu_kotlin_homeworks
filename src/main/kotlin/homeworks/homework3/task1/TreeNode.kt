@@ -69,9 +69,7 @@ class TreeNode<K : Comparable<K>, V>(private var key: K, var value: V) {
         }
     }
 
-    fun insert(
-        givenKey: K, givenValue: V
-    ): TreeNode<K, V>? {
+    fun insert(givenKey: K, givenValue: V): TreeNode<K, V>? {
         when {
             givenKey < key -> {
                 leftChild = leftChild?.insert(givenKey, givenValue) ?: TreeNode(givenKey, givenValue)
@@ -94,9 +92,7 @@ class TreeNode<K : Comparable<K>, V>(private var key: K, var value: V) {
         }
     }
 
-    fun deleteNode(
-        givenKey: K?
-    ): TreeNode<K, V>? {
+    fun deleteNode(givenKey: K?): TreeNode<K, V>? {
         return when {
             givenKey == null -> null
             givenKey < key -> {
