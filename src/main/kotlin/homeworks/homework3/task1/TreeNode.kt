@@ -44,18 +44,20 @@ class TreeNode<K : Comparable<K>, V>(private var key: K, var value: V) {
 
     private fun balance(): TreeNode<K, V>? {
         updateHeight()
-        return if (getBalanceFactor() == LEFT_CASE) {
-            if (rightChild?.getBalanceFactor() == LEFT_RIGHT_CASE) {
-                rightChild = rightChild?.rotateRight()
+        return when (getBalanceFactor()) {
+            LEFT_CASE -> {
+                if (rightChild?.getBalanceFactor() == LEFT_RIGHT_CASE) {
+                    rightChild = rightChild?.rotateRight()
+                }
+                rotateLeft()
             }
-            rotateLeft()
-        } else if (getBalanceFactor() == RIGHT_CASE) {
-            if (leftChild?.getBalanceFactor() == RIGHT_LEFT_CASE) {
-                leftChild = leftChild?.rotateLeft()
+            RIGHT_CASE -> {
+                if (leftChild?.getBalanceFactor() == RIGHT_LEFT_CASE) {
+                    leftChild = leftChild?.rotateLeft()
+                }
+                rotateRight()
             }
-            rotateRight()
-        } else {
-            this
+            else -> this
         }
     }
 
