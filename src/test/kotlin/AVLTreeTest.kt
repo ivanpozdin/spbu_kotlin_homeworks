@@ -49,8 +49,8 @@ internal class AVLTreeTest {
         for (i in 1..n) {
             treeMap[i] = i * 10
         }
-        var isSmallerThanMaxPossibleHeight = treeMap.getTreeHeight() <= floor(1.44 * log2(n + 2.0) - 0.328)
-        var isBiggerThanMinPossibleHeight = treeMap.getTreeHeight() >= ceil(log2(n + 1.0))
+        var isSmallerThanMaxPossibleHeight = treeMap.getTreeHeight <= floor(1.44 * log2(n + 2.0) - 0.328)
+        var isBiggerThanMinPossibleHeight = treeMap.getTreeHeight >= ceil(log2(n + 1.0))
         var real = isBiggerThanMinPossibleHeight && isSmallerThanMaxPossibleHeight
         assertEquals(true, real)
         // проверка высоты после удаления элементов
@@ -58,8 +58,8 @@ internal class AVLTreeTest {
             treeMap.remove(i)
         }
         n -= 200
-        isSmallerThanMaxPossibleHeight = treeMap.getTreeHeight() <= floor(1.44 * log2(n + 2.0) - 0.328)
-        isBiggerThanMinPossibleHeight = treeMap.getTreeHeight() >= ceil(log2(n + 1.0))
+        isSmallerThanMaxPossibleHeight = treeMap.getTreeHeight <= floor(1.44 * log2(n + 2.0) - 0.328)
+        isBiggerThanMinPossibleHeight = treeMap.getTreeHeight >= ceil(log2(n + 1.0))
         real = isBiggerThanMinPossibleHeight && isSmallerThanMaxPossibleHeight
         assertEquals(true, real)
     }
