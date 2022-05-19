@@ -80,7 +80,6 @@ internal class AVLTreeTest {
         assertEquals(expected, treeMap.containsValue(testNumber))
     }
 
-
     @ParameterizedTest(name = "case {index}")
     @MethodSource("testHeightInputData")
     fun isHeightCorrect(treeMap: AVLTree<Int, Int>) {
