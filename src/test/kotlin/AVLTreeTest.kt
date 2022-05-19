@@ -1,12 +1,12 @@
 import homeworks.homework3.task1.AVLTree
-import org.junit.jupiter.api.Test
-import kotlin.math.ceil
-import kotlin.math.floor
-import kotlin.math.log2
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
+import kotlin.math.ceil
+import kotlin.math.floor
+import kotlin.math.log2
 
 internal class AVLTreeTest {
     companion object {
