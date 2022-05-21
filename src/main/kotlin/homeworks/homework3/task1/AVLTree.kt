@@ -1,7 +1,7 @@
 package homeworks.homework3.task1
 
-import java.util.*
 import java.util.AbstractMap.SimpleEntry
+import java.util.Stack
 
 class AVLTree<K : Comparable<K>, V> : MutableMap<K, V> {
     override var size: Int = 0
