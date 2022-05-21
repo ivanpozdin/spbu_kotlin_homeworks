@@ -93,13 +93,14 @@ class AVLTree<K : Comparable<K>, V> : MutableMap<K, V> {
                 node.rightChild = deleteNode(key, node.rightChild)
                 node.balance()
             }
-            else -> {
+            node.leftChild != null -> {
                 val pair: Pair<TreeNode<K, V>?, TreeNode<K, V>?>? = node.leftChild?.extractMax()
                 val newRoot = pair?.first
                 newRoot?.leftChild = pair?.second
                 newRoot?.rightChild = node.rightChild
                 newRoot?.balance()
             }
+            else -> node.rightChild?.balance()
         }
     }
 }
