@@ -1,7 +1,7 @@
 package homeworks.homework3.task1
 
-import java.util.AbstractMap.SimpleEntry
 import java.util.Stack
+import java.util.AbstractMap.SimpleEntry
 
 class AVLTree<K : Comparable<K>, V> : MutableMap<K, V> {
     override val size: Int
@@ -86,13 +86,13 @@ class AVLTree<K : Comparable<K>, V> : MutableMap<K, V> {
         root = null
     }
 
-    override fun isEmpty(): Boolean =root == null
+    override fun isEmpty(): Boolean = (root == null)
 
     override fun putAll(from: Map<out K, V>) {
         from.iterator().forEach { put(it.key, it.value) }
     }
 
-    override fun toString(): String =root?.getTreeDiagram() ?: ""
+    override fun toString(): String = (root?.getTreeDiagram() ?: "")
 
     companion object {
         private fun <K : Comparable<K>, V> insert(key: K, value: V, node: TreeNode<K, V>?): TreeNode<K, V>? {
