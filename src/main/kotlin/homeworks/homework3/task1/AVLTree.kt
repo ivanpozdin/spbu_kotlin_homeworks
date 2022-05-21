@@ -7,32 +7,11 @@ class AVLTree<K : Comparable<K>, V> : MutableMap<K, V> {
     override val size: Int
         get() = amountOfElements
     override val entries: MutableSet<MutableMap.MutableEntry<K, V>>
-        get() {
-            val entriesToGet: MutableSet<MutableMap.MutableEntry<K, V>> = mutableSetOf()
-            val keyValuePairs = getListOfKeyValuePairs()
-            for (pair in keyValuePairs) {
-                entriesToGet.add(SimpleEntry(pair.first, pair.second))
-            }
-            return entriesToGet
-        }
+        get() = getListOfKeyValuePairs().map { SimpleEntry(it.first, it.second) }.toMutableSet()
     override val keys: MutableSet<K>
-        get() {
-            val keysToGet = mutableSetOf<K>()
-            val keyValuePairs = getListOfKeyValuePairs()
-            for (pair in keyValuePairs) {
-                keys.add(pair.first)
-            }
-            return keysToGet
-        }
+        get() = getListOfKeyValuePairs().map { it.first }.toMutableSet()
     override val values: MutableCollection<V>
-        get() {
-            val valuesToGet = mutableListOf<V>()
-            val keyValuePairs = getListOfKeyValuePairs()
-            for (pair in keyValuePairs) {
-                valuesToGet.add(pair.second)
-            }
-            return valuesToGet
-        }
+        get() = getListOfKeyValuePairs().map { it.second }.toMutableList()
 
     private var root: TreeNode<K, V>? = null
     private var amountOfElements = 0
