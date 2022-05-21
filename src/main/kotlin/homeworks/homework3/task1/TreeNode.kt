@@ -85,7 +85,7 @@ class TreeNode<K : Comparable<K>, V>(var key: K, var value: V) {
         var str = ""
         str += rightChild?.getTreeDiagram(space + COUNT) ?: ""
         str += "\n"
-        repeat(space) { str += " " }
+        str += " ".repeat(space)
         str += key.toString() + "\n"
         str += leftChild?.getTreeDiagram(space + COUNT) ?: ""
         return str
