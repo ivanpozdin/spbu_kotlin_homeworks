@@ -37,7 +37,7 @@ class AVLTree<K : Comparable<K>, V> : MutableMap<K, V> {
     private var root: TreeNode<K, V>? = null
     private var amountOfElements = 0
 
-    val getTreeHeight: Int get() = root?.getHeight ?: 0
+    val height: Int get() = root?.getHeight ?: 0
 
     override fun put(key: K, value: V): V? {
         val oldValue = get(key)
@@ -86,17 +86,13 @@ class AVLTree<K : Comparable<K>, V> : MutableMap<K, V> {
         root = null
     }
 
-    override fun isEmpty(): Boolean {
-        return root == null
-    }
+    override fun isEmpty(): Boolean =root == null
 
     override fun putAll(from: Map<out K, V>) {
         from.iterator().forEach { put(it.key, it.value) }
     }
 
-    override fun toString(): String {
-        return root?.getTreeDiagram() ?: ""
-    }
+    override fun toString(): String =root?.getTreeDiagram() ?: ""
 
     companion object {
         private fun <K : Comparable<K>, V> insert(key: K, value: V, node: TreeNode<K, V>?): TreeNode<K, V>? {

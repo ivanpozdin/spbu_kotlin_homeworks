@@ -83,8 +83,8 @@ internal class AVLTreeTest {
     @ParameterizedTest(name = "case {index}")
     @MethodSource("testHeightInputData")
     fun isHeightCorrect(treeMap: AVLTree<Int, Int>) {
-        val isSmallerThanMaxPossibleHeight = treeMap.getTreeHeight <= floor(1.44 * log2(treeMap.size + 2.0) - 0.328)
-        val isBiggerThanMinPossibleHeight = treeMap.getTreeHeight >= ceil(log2(treeMap.size + 1.0))
+        val isSmallerThanMaxPossibleHeight = treeMap.height <= floor(1.44 * log2(treeMap.size + 2.0) - 0.328)
+        val isBiggerThanMinPossibleHeight = treeMap.height >= ceil(log2(treeMap.size + 1.0))
         val real = isBiggerThanMinPossibleHeight && isSmallerThanMaxPossibleHeight
         assertEquals(true, real)
     }
