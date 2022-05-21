@@ -83,13 +83,11 @@ class TreeNode<K : Comparable<K>, V>(var key: K, var value: V) {
 
     fun getTreeDiagram(space: Int = 0): String {
         var str = ""
-        var localSpace = space
-        localSpace += COUNT
-        str += rightChild?.getTreeDiagram(localSpace) ?: ""
+        str += rightChild?.getTreeDiagram(space + COUNT) ?: ""
         str += "\n"
-        repeat(localSpace - COUNT) { str += " " }
+        repeat(space) { str += " " }
         str += key.toString() + "\n"
-        str += leftChild?.getTreeDiagram(localSpace) ?: ""
+        str += leftChild?.getTreeDiagram(space + COUNT) ?: ""
         return str
     }
 }
