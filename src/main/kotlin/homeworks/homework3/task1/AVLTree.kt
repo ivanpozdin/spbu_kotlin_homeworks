@@ -1,7 +1,8 @@
 package homeworks.homework3.task1
 
-import java.util.Stack
 import java.util.AbstractMap.SimpleEntry
+import java.util.Stack
+
 
 class AVLTree<K : Comparable<K>, V> : MutableMap<K, V> {
     override val size: Int
@@ -105,25 +106,24 @@ class AVLTree<K : Comparable<K>, V> : MutableMap<K, V> {
             return node.balance()
         }
 
-        private fun <K : Comparable<K>, V> deleteNode(key: K, node: TreeNode<K, V>?): TreeNode<K, V>? {
-            return when {
-                node == null -> null
-                key < node.key -> {
-                    node.leftChild = deleteNode(key, node.leftChild)
-                    node.balance()
-                }
-                key > node.key -> {
-                    node.rightChild = deleteNode(key, node.rightChild)
-                    node.balance()
-                }
-                else -> {
-                    val pair: Pair<TreeNode<K, V>?, TreeNode<K, V>?>? = node.leftChild?.extractMax()
-                    val newRoot = pair?.first
-                    newRoot?.leftChild = pair?.second
-                    newRoot?.rightChild = node.rightChild
-                    newRoot?.balance()
-                }
+        private fun <K : Comparable<K>, V> deleteNode(key: K, node: TreeNode<K, V>?): TreeNode<K, V>? = when {
+            node == null -> null
+            key < node.key -> {
+                node.leftChild = deleteNode(key, node.leftChild)
+                node.balance()
+            }
+            key > node.key -> {
+                node.rightChild = deleteNode(key, node.rightChild)
+                node.balance()
+            }
+            else -> {
+                val pair: Pair<TreeNode<K, V>?, TreeNode<K, V>?>? = node.leftChild?.extractMax()
+                val newRoot = pair?.first
+                newRoot?.leftChild = pair?.second
+                newRoot?.rightChild = node.rightChild
+                newRoot?.balance()
             }
         }
     }
 }
+
