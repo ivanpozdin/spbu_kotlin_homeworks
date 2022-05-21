@@ -15,7 +15,7 @@ class AVLTree<K : Comparable<K>, V> : MutableMap<K, V> {
 
     private var root: TreeNode<K, V>? = null
 
-    val height: Int get() = root?.getHeight ?: 0
+    val height: Int get() = root?.height ?: 0
 
     override fun put(key: K, value: V): V? {
         val oldValue = get(key)

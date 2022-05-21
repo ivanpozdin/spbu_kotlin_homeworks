@@ -11,8 +11,9 @@ class TreeNode<K : Comparable<K>, V>(var key: K, var value: V) {
 
     var leftChild: TreeNode<K, V>? = null
     var rightChild: TreeNode<K, V>? = null
-    private var height: Int = 1
-    val getHeight: Int get() = height
+    var height: Int = 1
+        private set
+
     private val balanceFactor: Int get() = (rightChild?.height ?: 0) - (leftChild?.height ?: 0)
 
     private fun updateHeight() {
