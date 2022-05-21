@@ -3,7 +3,6 @@ package homeworks.homework3.task1
 import java.util.AbstractMap.SimpleEntry
 import java.util.Stack
 
-
 class AVLTree<K : Comparable<K>, V> : MutableMap<K, V> {
     override val size: Int
         get() = amountOfElements
@@ -126,4 +125,3 @@ class AVLTree<K : Comparable<K>, V> : MutableMap<K, V> {
         }
     }
 }
-

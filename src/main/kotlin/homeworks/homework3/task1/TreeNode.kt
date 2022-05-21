@@ -58,23 +58,19 @@ class TreeNode<K : Comparable<K>, V>(var key: K, var value: V) {
         }
     }
 
-    fun findNodeWithGivenKey(givenKey: K): TreeNode<K, V>? {
-        return when {
+    fun findNodeWithGivenKey(givenKey: K): TreeNode<K, V>? = when {
             givenKey > key -> rightChild?.findNodeWithGivenKey(givenKey)
             givenKey < key -> leftChild?.findNodeWithGivenKey(givenKey)
             else -> this
         }
-    }
 
-    fun extractMax(): Pair<TreeNode<K, V>?, TreeNode<K, V>?> {
-        return if (rightChild != null) {
+    fun extractMax(): Pair<TreeNode<K, V>?, TreeNode<K, V>?> = if (rightChild != null) {
             val pair: Pair<TreeNode<K, V>?, TreeNode<K, V>?> = rightChild?.extractMax() ?: Pair(null, null)
             rightChild = pair.second
             Pair<TreeNode<K, V>?, TreeNode<K, V>?>(pair.first, this)
         } else {
             Pair(this, leftChild)
         }
-    }
 
     fun getTreeDiagram(space: Int = 0): String {
         var str = ""
