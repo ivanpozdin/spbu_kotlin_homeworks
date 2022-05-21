@@ -1,11 +1,11 @@
 package homeworks.homework3.task1
 
+import java.util.*
 import java.util.AbstractMap.SimpleEntry
-import java.util.Stack
 
 class AVLTree<K : Comparable<K>, V> : MutableMap<K, V> {
-    override val size: Int
-        get() = amountOfElements
+    override var size: Int = 0
+        private set
     override val entries: MutableSet<MutableMap.MutableEntry<K, V>>
         get() = getListOfKeyValuePairs().map { SimpleEntry(it.first, it.second) }.toMutableSet()
     override val keys: MutableSet<K>
@@ -14,7 +14,6 @@ class AVLTree<K : Comparable<K>, V> : MutableMap<K, V> {
         get() = getListOfKeyValuePairs().map { it.second }.toMutableList()
 
     private var root: TreeNode<K, V>? = null
-    private var amountOfElements = 0
 
     val height: Int get() = root?.getHeight ?: 0
 
@@ -22,7 +21,7 @@ class AVLTree<K : Comparable<K>, V> : MutableMap<K, V> {
         val oldValue = get(key)
         root = insert(key, value, root)
         if (oldValue == null) {
-            amountOfElements += 1
+            size += 1
         }
         return oldValue
     }
@@ -31,7 +30,7 @@ class AVLTree<K : Comparable<K>, V> : MutableMap<K, V> {
         val oldValue = get(key)
         root = deleteNode(key, root)
         if (oldValue != null) {
-            amountOfElements -= 1
+            size -= 1
         }
         return oldValue
     }
@@ -51,7 +50,7 @@ class AVLTree<K : Comparable<K>, V> : MutableMap<K, V> {
             }
             current = stack.pop()
             if (current != null) {
-                pairs.add(Pair(current.getKey, current.getValue))
+                pairs.add(Pair(current.key, current.value))
             }
             current = current?.rightChild
         }
@@ -61,7 +60,7 @@ class AVLTree<K : Comparable<K>, V> : MutableMap<K, V> {
     override fun get(key: K): V? = root?.findNodeWithGivenKey(key)?.value
 
     override fun clear() {
-        amountOfElements = 0
+        size = 0
         root = null
     }
 
