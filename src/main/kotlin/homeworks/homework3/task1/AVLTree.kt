@@ -41,7 +41,7 @@ class AVLTree<K : Comparable<K>, V> : MutableMap<K, V> {
 
     private fun getListOfKeyValuePairs(): MutableList<Pair<K, V>> {
         val pairs = mutableListOf<Pair<K, V>>()
-        val stack: Stack<TreeNode<K, V>?> = Stack<TreeNode<K, V>?>()
+        val stack = Stack<TreeNode<K, V>?>()
         var current: TreeNode<K, V>? = root
         while (current != null || stack.size > 0) {
             while (current != null) {

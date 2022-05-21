@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
+import java.util.AbstractMap.SimpleEntry
+import kotlin.collections.MutableMap.MutableEntry
 import kotlin.math.ceil
 import kotlin.math.floor
 import kotlin.math.log2
@@ -144,5 +146,43 @@ internal class AVLTreeTest {
         val expected = 6000
         val real: Int? = treeMap.put(600, 6)
         assertEquals(expected, real)
+    }
+
+    @Test
+    fun keysGetTest() {
+        val expected = mutableSetOf(1, 2, 3, 4, 5, 6, 7)
+        val tree = AVLTree<Int, Char>()
+        for (i in 1..7) {
+            tree[i] = 'a'
+        }
+        assertEquals(expected, tree.keys)
+    }
+
+    @Test
+    fun valuesGetTest() {
+        val expected = mutableListOf<Int>(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+        val tree = AVLTree<Int, Int>()
+        for (i in 1..10) {
+            tree[i] = i
+        }
+        assertEquals(expected, tree.values)
+    }
+
+    @Test
+    fun entriesGetTest() {
+        val expected = mutableSetOf<MutableEntry<Int, Char>>(
+            SimpleEntry(1, 'a'),
+            SimpleEntry(2, 'a'),
+            SimpleEntry(3, 'a'),
+            SimpleEntry(4, 'a'),
+            SimpleEntry(5, 'a'),
+            SimpleEntry(6, 'a'),
+            SimpleEntry(7, 'a'),
+        )
+        val tree = AVLTree<Int, Char>()
+        for (i in 1..7) {
+            tree[i] = 'a'
+        }
+        assertEquals(expected, tree.entries)
     }
 }
