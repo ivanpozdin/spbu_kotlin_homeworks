@@ -18,7 +18,7 @@ internal class AVLTreeTest {
         @JvmStatic
         fun testHeightInputData(): List<Arguments> {
             val treeMapFirst = AVLTree<Int, Int>()
-            for (i in 1..1500) {
+            for (i in 1..150) {
                 treeMapFirst[i] = i * 10
             }
             val treeMapSecond = AVLTree<Int, Int>()

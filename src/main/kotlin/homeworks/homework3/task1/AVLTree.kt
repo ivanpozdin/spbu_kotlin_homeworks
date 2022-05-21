@@ -41,7 +41,7 @@ class AVLTree<K : Comparable<K>, V> : MutableMap<K, V> {
 
     override fun put(key: K, value: V): V? {
         val oldValue = get(key)
-        root = root?.insert(key, value) ?: TreeNode(key, value)
+        root = insert(key, value, root)
         if (oldValue == null) {
             amountOfElements += 1
         }
@@ -50,7 +50,7 @@ class AVLTree<K : Comparable<K>, V> : MutableMap<K, V> {
 
     override fun remove(key: K): V? {
         val oldValue = get(key)
-        root = root?.deleteNode(key)
+        root = deleteNode(key, root)
         if (oldValue != null) {
             amountOfElements -= 1
         }
@@ -96,5 +96,38 @@ class AVLTree<K : Comparable<K>, V> : MutableMap<K, V> {
 
     override fun toString(): String {
         return root?.getTreeDiagram() ?: ""
+    }
+
+    companion object {
+        private fun <K : Comparable<K>, V> insert(key: K, value: V, node: TreeNode<K, V>?): TreeNode<K, V>? {
+            when {
+                node == null -> return TreeNode(key, value).balance()
+                key < node.key -> node.leftChild = insert(key, value, node.leftChild)
+                key > node.key -> node.rightChild = insert(key, value, node.rightChild)
+                else -> node.value = value
+            }
+            return node.balance()
+        }
+
+        private fun <K : Comparable<K>, V> deleteNode(key: K, node: TreeNode<K, V>?): TreeNode<K, V>? {
+            return when {
+                node == null -> null
+                key < node.key -> {
+                    node.leftChild = deleteNode(key, node.leftChild)
+                    node.balance()
+                }
+                key > node.key -> {
+                    node.rightChild = deleteNode(key, node.rightChild)
+                    node.balance()
+                }
+                else -> {
+                    val pair: Pair<TreeNode<K, V>?, TreeNode<K, V>?>? = node.leftChild?.extractMax()
+                    val newRoot = pair?.first
+                    newRoot?.leftChild = pair?.second
+                    newRoot?.rightChild = node.rightChild
+                    newRoot?.balance()
+                }
+            }
+        }
     }
 }

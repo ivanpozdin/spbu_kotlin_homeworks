@@ -1,6 +1,6 @@
 package homeworks.homework3.task1
 
-class TreeNode<K : Comparable<K>, V>(private var key: K, var value: V) {
+class TreeNode<K : Comparable<K>, V>(var key: K, var value: V) {
     companion object {
         const val LEFT_CASE = 2
         const val RIGHT_CASE = -2
@@ -44,7 +44,7 @@ class TreeNode<K : Comparable<K>, V>(private var key: K, var value: V) {
         return right - left
     }
 
-    private fun balance(): TreeNode<K, V>? {
+    fun balance(): TreeNode<K, V>? {
         updateHeight()
         return when (getBalanceFactor()) {
             LEFT_CASE -> {
@@ -71,49 +71,13 @@ class TreeNode<K : Comparable<K>, V>(private var key: K, var value: V) {
         }
     }
 
-    fun insert(givenKey: K, givenValue: V): TreeNode<K, V>? {
-        when {
-            givenKey < key -> {
-                leftChild = leftChild?.insert(givenKey, givenValue) ?: TreeNode(givenKey, givenValue)
-            }
-            givenKey > key -> {
-                rightChild = rightChild?.insert(givenKey, givenValue) ?: TreeNode(givenKey, givenValue)
-            }
-            else -> value = givenValue
-        }
-        return balance()
-    }
-
-    private fun extractMax(): Pair<TreeNode<K, V>?, TreeNode<K, V>?> {
+    fun extractMax(): Pair<TreeNode<K, V>?, TreeNode<K, V>?> {
         return if (rightChild != null) {
             val pair: Pair<TreeNode<K, V>?, TreeNode<K, V>?> = rightChild?.extractMax() ?: Pair(null, null)
             rightChild = pair.second
             Pair<TreeNode<K, V>?, TreeNode<K, V>?>(pair.first, this)
         } else {
             Pair(this, leftChild)
-        }
-    }
-
-    fun deleteNode(givenKey: K?): TreeNode<K, V>? {
-        return when {
-            givenKey == null -> null
-            givenKey < key -> {
-                leftChild = leftChild?.deleteNode(givenKey)
-                this.balance()
-            }
-            givenKey > key -> {
-                rightChild = rightChild?.deleteNode(givenKey)
-                this.balance()
-            }
-            leftChild == null -> rightChild
-            rightChild == null -> leftChild
-            else -> { // case, when (key == givenKey) and (this) has all children
-                val pair: Pair<TreeNode<K, V>?, TreeNode<K, V>?>? = leftChild?.extractMax()
-                val newRoot = pair?.first
-                newRoot?.leftChild = pair?.second
-                newRoot?.rightChild = rightChild
-                newRoot?.balance()
-            }
         }
     }
 
