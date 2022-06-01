@@ -3,15 +3,15 @@ package homeworks.homework4.task1
 import java.util.Random
 import kotlin.system.measureNanoTime
 
-object MergeSort {
-    private class SortThreads(array: Array<Int>, begin: Int, end: Int) :
+object MergeSorter {
+    private class SortThreads(array: IntArray, begin: Int, end: Int) :
         Thread(Runnable { mergeSort(array, begin, end) }) {
         init {
             start()
         }
     }
 
-    private fun mergeSort(array: Array<Int>, begin: Int, end: Int) {
+    private fun mergeSort(array: IntArray, begin: Int, end: Int) {
         if (begin < end) {
             val mid = (begin + end) / 2
             mergeSort(array, begin, mid)
@@ -20,7 +20,7 @@ object MergeSort {
         }
     }
 
-    fun threadedSort(array: Array<Int>, maxAmountOfThreads: Int) = measureNanoTime {
+    fun threadedSort(array: IntArray, maxAmountOfThreads: Int) = measureNanoTime {
         val exact = array.size % maxAmountOfThreads == 0
         var maxLim = if (exact) array.size / maxAmountOfThreads else array.size / (maxAmountOfThreads - 1)
 
@@ -54,7 +54,7 @@ object MergeSort {
         }
     }
 
-    private fun merge(array: Array<Int>, begin: Int, mid: Int, end: Int) {
+    private fun merge(array: IntArray, begin: Int, mid: Int, end: Int) {
         val temp = Array(end - begin + 1){0}
         var i = begin
         var j = mid + 1
@@ -92,13 +92,13 @@ object MergeSort {
 object SortAndDraw {
     @JvmStatic
     fun getDataForPlotThreadsMicroseconds(maxAmountOfThreads: Int, size: Int): Map<String, Any> {
-        val list = Array(size){ Random().nextInt(size + (size - 1)) - (size - 1) }
+        val list = IntArray(size, {Random().nextInt(size + (size - 1)) - (size - 1)})
         val listOfXs = mutableListOf<Int>()
         val listOfYs = mutableListOf<Long>()
         for (i in 1..maxAmountOfThreads) {
             val arr = list.copyOf()
             listOfXs.add(i)
-            listOfYs.add(MergeSort.threadedSort(arr, i))
+            listOfYs.add(MergeSorter.threadedSort(arr, i))
         }
         return mapOf<String, Any>("threads" to listOfXs, "microseconds" to listOfYs)
     }
@@ -108,10 +108,10 @@ object SortAndDraw {
         val listOfXs = mutableListOf<Int>()
         val listOfYs = mutableListOf<Long>()
         for (size in 1..maxSize) {
-            val list = Array(size){ Random().nextInt(size + (size - 1)) - (size - 1) }
+            val list = IntArray(size, { Random().nextInt(size + (size - 1)) - (size - 1) })
             for (i in 0 until size) {
                 listOfXs.add(i)
-                listOfYs.add(MergeSort.threadedSort(list, amountOfThreads))
+                listOfYs.add(MergeSorter.threadedSort(list, amountOfThreads))
             }
         }
         return mapOf<String, Any>("elements" to listOfXs, "microseconds" to listOfYs)

@@ -1,18 +1,18 @@
-import homeworks.homework4.task1.MergeSort
+import homeworks.homework4.task1.MergeSorter
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
 import java.util.Random
 
-internal class MergeSortTest {
+internal class MergeSorterTest {
     @Test
     fun threadedSort() {
         val size = Random().nextInt(200)
         val amountOfThreads = Random().nextInt(100)
-        val list = Array(size){ Random().nextInt(size + (size - 1)) - (size - 1) }
+        val list = IntArray(size, { Random().nextInt(size + (size - 1)) - (size - 1) })
         val listForStdSort = list.copyOf()
         val listForMySort = list.copyOf()
         listForStdSort.sort()
-        MergeSort.threadedSort(listForMySort, amountOfThreads)
+        MergeSorter.threadedSort(listForMySort, amountOfThreads)
         assertArrayEquals(listForStdSort, listForMySort)
     }
 }
