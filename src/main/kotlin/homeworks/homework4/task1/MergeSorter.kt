@@ -55,7 +55,7 @@ object MergeSorter {
     }
 
     private fun merge(array: IntArray, begin: Int, mid: Int, end: Int) {
-        val temp = Array(end - begin + 1){0}
+        val temp = Array(end - begin + 1) { 0 }
         var i = begin
         var j = mid + 1
         var k = 0
@@ -92,7 +92,7 @@ object MergeSorter {
 object SortAndDraw {
     @JvmStatic
     fun getDataForPlotThreadsMicroseconds(maxAmountOfThreads: Int, size: Int): Map<String, Any> {
-        val list = IntArray(size, {Random().nextInt(size + (size - 1)) - (size - 1)})
+        val list = IntArray(size) { Random().nextInt(size + (size - 1)) - (size - 1) }
         val listOfXs = mutableListOf<Int>()
         val listOfYs = mutableListOf<Long>()
         for (i in 1..maxAmountOfThreads) {
@@ -108,7 +108,7 @@ object SortAndDraw {
         val listOfXs = mutableListOf<Int>()
         val listOfYs = mutableListOf<Long>()
         for (size in 1..maxSize) {
-            val list = IntArray(size, { Random().nextInt(size + (size - 1)) - (size - 1) })
+            val list = IntArray(size) { Random().nextInt(size + (size - 1)) - (size - 1) }
             for (i in 0 until size) {
                 listOfXs.add(i)
                 listOfYs.add(MergeSorter.threadedSort(list, amountOfThreads))
