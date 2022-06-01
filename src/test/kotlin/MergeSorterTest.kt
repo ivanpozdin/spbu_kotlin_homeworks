@@ -1,7 +1,7 @@
+import homeworks.homework4.task1.MergeSorter
 import java.util.Random
 import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Test
-import homeworks.homework4.task1.MergeSorter
 
 internal class MergeSorterTest {
     @Test
