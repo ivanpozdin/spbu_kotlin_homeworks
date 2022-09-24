@@ -6,6 +6,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlin.system.measureTimeMillis
 
+const val RANGE_START = -5
+const val RANGE_END = 5
+
 fun getSizeAmount(message: String): Int {
     var inputSize = ""
     while (inputSize.toIntOrNull() == null || inputSize.toIntOrNull()!! <= 0) {
@@ -51,13 +54,15 @@ fun multiplyMatricesWithCoroutines(firstMatrix: Array<IntArray>, secondMatrix: A
     runBlocking {
         for (i in 0 until rawAmountOfFirstMatrix) {
             for (j in 0 until columnAmountOfSecondMatrix) {
-                jobList.add(launch(Dispatchers.Default) {
-                    var resultToReturn: Int = 0
-                    for (k in secondMatrix.indices) {
-                        resultToReturn += firstMatrix[i][k] * secondMatrix[k][j]
+                jobList.add(
+                    launch(Dispatchers.Default) {
+                        var resultToReturn = 0
+                        for (k in secondMatrix.indices) {
+                            resultToReturn += firstMatrix[i][k] * secondMatrix[k][j]
+                        }
+                        resultMatrix[i][j] = resultToReturn
                     }
-                    resultMatrix[i][j] = resultToReturn
-                })
+                )
             }
         }
 
@@ -68,24 +73,24 @@ fun multiplyMatricesWithCoroutines(firstMatrix: Array<IntArray>, secondMatrix: A
     return resultMatrix
 }
 
-fun generateMatrix(raws: Int, columns: Int): Array<IntArray> = Array<IntArray>(raws) {
+fun generateMatrix(raws: Int, columns: Int) = Array<IntArray>(raws) {
     IntArray(columns) {
-        kotlin.random.Random.nextInt(-5, 5)
+        kotlin.random.Random.nextInt(RANGE_START, RANGE_END)
     }
 }
 
-
 fun main() {
-    println("Введите размерность квадратных матриц, которые будут случайно сгенерированы и перемножены с помощью корутин и без них:")
+    println("Введите размерность квадратных матриц,")
+    println("которые будут случайно сгенерированы и перемножены с помощью корутин и без них:")
     val m = getSizeAmount("размерность")
     val firstMatrix = generateMatrix(m, m)
     val secondMatrix = generateMatrix(m, m)
     val timeWithCoroutines = measureTimeMillis {
-        val resultMatrixWithCoroutines = multiplyMatricesWithCoroutines(firstMatrix, secondMatrix)
+        multiplyMatricesWithCoroutines(firstMatrix, secondMatrix)
     }
     println("Время умножения матриц с помощью корутин: $timeWithCoroutines мс")
     val timeWithOneThread = measureTimeMillis {
-        val resultMatrixWithOneThread = multiplyMatricesInOneThread(firstMatrix, secondMatrix)
+        multiplyMatricesInOneThread(firstMatrix, secondMatrix)
     }
     println("Время умножения матриц без корутин: $timeWithOneThread мс")
 }

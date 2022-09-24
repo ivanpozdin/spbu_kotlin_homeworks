@@ -1,8 +1,7 @@
 package homeworks.homework5.task2
 
+import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Test
-
-import org.junit.jupiter.api.Assertions.*
 import kotlin.random.Random
 
 internal class MainKtTest {
@@ -23,7 +22,7 @@ internal class MainKtTest {
             intArrayOf(215, 424, 386),
             intArrayOf(163, 371, 259)
         )
-        assertArrayEquals(expectedArray, homeworks.homework5.task2.multiplyMatricesInOneThread(matrix1, matrix2))
+        assertArrayEquals(expectedArray, multiplyMatricesInOneThread(matrix1, matrix2))
     }
 
     @Test
@@ -36,9 +35,8 @@ internal class MainKtTest {
         val matrix2 = generateMatrix(columnMatrix1, columnMatrix2)
 
         assertArrayEquals(
-            homeworks.homework5.task2.multiplyMatricesInOneThread(matrix1, matrix2),
-            homeworks.homework5.task2.multiplyMatricesWithCoroutines(matrix1, matrix2)
+            multiplyMatricesInOneThread(matrix1, matrix2),
+            multiplyMatricesWithCoroutines(matrix1, matrix2)
         )
-
     }
 }
