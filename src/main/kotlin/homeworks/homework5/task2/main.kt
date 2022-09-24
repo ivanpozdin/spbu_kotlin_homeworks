@@ -37,7 +37,7 @@ fun getMatrix(rawAmount: Int, columnAmount: Int, message: String): Array<IntArra
     return matrix
 }
 
-fun getMatrixMultiplicationOneThread(firstMatrix: Array<IntArray>, secondMatrix: Array<IntArray>): Array<IntArray> {
+fun multiplyMatricesInOneThread(firstMatrix: Array<IntArray>, secondMatrix: Array<IntArray>): Array<IntArray> {
     val rawAmountOfFirstMatrix = firstMatrix.size
     val columnAmountOfFirstMatrix = firstMatrix[0].size
     val rawAmountOfSecondMatrix = secondMatrix.size
@@ -58,37 +58,7 @@ fun getMatrixMultiplicationOneThread(firstMatrix: Array<IntArray>, secondMatrix:
     return resultMatrix
 }
 
-fun getMatrixMultiplicationAsync(firstMatrix: Array<IntArray>, secondMatrix: Array<IntArray>): Array<IntArray> {
-    val rawAmountOfFirstMatrix = firstMatrix.size
-    val columnAmountOfFirstMatrix = firstMatrix[0].size
-    val rawAmountOfSecondMatrix = secondMatrix.size
-    val columnAmountOfSecondMatrix = secondMatrix[0].size
-    require(columnAmountOfFirstMatrix == rawAmountOfSecondMatrix)
-    {
-        "Размеры матриц некорректны"
-    }
-    val resultMatrix = Array(rawAmountOfFirstMatrix) { IntArray(columnAmountOfSecondMatrix) }
-    runBlocking {
-        val resultMatrixAsync = Array<Deferred<Int>>(rawAmountOfFirstMatrix * columnAmountOfSecondMatrix) { idx ->
-            async() {
-                val i = idx / columnAmountOfSecondMatrix
-                val j = idx % columnAmountOfSecondMatrix
-                var resultToReturn: Int = 0
-                for (k in secondMatrix.indices) {
-                    resultToReturn += firstMatrix[i][k] * secondMatrix[k][j]
-                }
-                resultToReturn
-            }
-        }
-        for (coroutineNumber in resultMatrixAsync.indices) {
-            resultMatrix[coroutineNumber / columnAmountOfSecondMatrix][coroutineNumber % columnAmountOfSecondMatrix] =
-                resultMatrixAsync[coroutineNumber].await()
-        }
-    }
-    return resultMatrix
-}
-
-fun getMatrixMultiplicationLaunch(firstMatrix: Array<IntArray>, secondMatrix: Array<IntArray>): Array<IntArray> {
+fun multiplyMatricesWithCoroutines(firstMatrix: Array<IntArray>, secondMatrix: Array<IntArray>): Array<IntArray> {
     val rawAmountOfFirstMatrix = firstMatrix.size
     val columnAmountOfFirstMatrix = firstMatrix[0].size
     val rawAmountOfSecondMatrix = secondMatrix.size
@@ -128,24 +98,19 @@ fun generateMatrix(raws: Int, columns: Int): Array<IntArray> {
 }
 
 fun main() {
-    val m = 1500
+    val m = 2000
     val firstMatrix = generateMatrix(m, m)
     val secondMatrix = generateMatrix(m, m)
-    val time1 = measureTimeMillis {
-        val resultMatrix1 = getMatrixMultiplicationOneThread(firstMatrix, secondMatrix)
-        println("результат 1 ${resultMatrix1[0][0]}")
-    }
-    println(time1)
-    val time2 = measureTimeMillis {
-        val resultMatrix2 = getMatrixMultiplicationAsync(firstMatrix, secondMatrix)
-        println("результат 2 ${resultMatrix2[0][0]}")
-    }
-    println(time2)
     val time3 = measureTimeMillis {
-        val resultMatrix3 = getMatrixMultiplicationLaunch(firstMatrix, secondMatrix)
+        val resultMatrix3 = multiplyMatricesWithCoroutines(firstMatrix, secondMatrix)
         println("результат 3 ${resultMatrix3[0][0]}")
     }
     println(time3)
+    val time1 = measureTimeMillis {
+        val resultMatrix1 = multiplyMatricesInOneThread(firstMatrix, secondMatrix)
+        println("результат 1 ${resultMatrix1[0][0]}")
+    }
+    println(time1)
 }
 
 

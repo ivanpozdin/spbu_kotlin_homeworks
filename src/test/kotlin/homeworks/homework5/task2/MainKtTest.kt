@@ -3,10 +3,42 @@ package homeworks.homework5.task2
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
+import kotlin.random.Random
 
 internal class MainKtTest {
+    @Test
+    fun multiplyMatricesInOneThread() {
+        val matrix1 = arrayOf(
+            intArrayOf(12, 8, 4),
+            intArrayOf(3, 17, 14),
+            intArrayOf(9, 8, 10)
+        )
+        val matrix2 = arrayOf(
+            intArrayOf(5, 19, 3),
+            intArrayOf(6, 15, 9),
+            intArrayOf(7, 8, 16)
+        )
+        val expectedArray = arrayOf(
+            intArrayOf(136, 380, 172),
+            intArrayOf(215, 424, 386),
+            intArrayOf(163, 371, 259)
+        )
+        assertArrayEquals(expectedArray, homeworks.homework5.task2.multiplyMatricesInOneThread(matrix1, matrix2))
+    }
 
     @Test
-    fun getMatrixMultiplicationOneThread() {
+    fun multiplyMatricesWithCoroutines() {
+        val rawsMatrix1 = Random.nextInt(1, 2000)
+        val columnMatrix2 = Random.nextInt(1, 2000)
+        val columnMatrix1 = Random.nextInt(1, 2000)
+
+        val matrix1 = generateMatrix(rawsMatrix1, columnMatrix1)
+        val matrix2 = generateMatrix(columnMatrix1, columnMatrix2)
+
+        assertArrayEquals(
+            homeworks.homework5.task2.multiplyMatricesInOneThread(matrix1, matrix2),
+            homeworks.homework5.task2.multiplyMatricesWithCoroutines(matrix1, matrix2)
+        )
+
     }
 }
