@@ -10,11 +10,11 @@ const val RANGE_START = -5
 const val RANGE_END = 5
 
 fun getSizeAmount(message: String): Int {
-    var inputSize = ""
-    while (inputSize.toIntOrNull() == null || inputSize.toIntOrNull()!! <= 0) {
+    var inputSize: String? = ""
+    while ((inputSize?.toIntOrNull() == null) || (inputSize.toIntOrNull()!! <= 0)) {
         print("Введите $message: ")
-        inputSize = readLine()!!
-        if (inputSize.toIntOrNull() == null || inputSize.toIntOrNull()!! <= 0) {
+        inputSize = readLine()
+        if ((inputSize?.toIntOrNull() == null) || (inputSize.toIntOrNull()!! <= 0)) {
             println("Внимание: вводить можно только натуральные числа. Попробуйте снова.")
         }
     }
@@ -22,14 +22,14 @@ fun getSizeAmount(message: String): Int {
 }
 
 fun multiplyMatricesInOneThread(firstMatrix: Array<IntArray>, secondMatrix: Array<IntArray>): Array<IntArray> {
-    val rawAmountOfFirstMatrix = firstMatrix.size
+    val rowAmountOfFirstMatrix = firstMatrix.size
     val columnAmountOfFirstMatrix = firstMatrix[0].size
-    val rawAmountOfSecondMatrix = secondMatrix.size
+    val rowAmountOfSecondMatrix = secondMatrix.size
     val columnAmountOfSecondMatrix = secondMatrix[0].size
-    require(columnAmountOfFirstMatrix == rawAmountOfSecondMatrix) {
+    require(columnAmountOfFirstMatrix == rowAmountOfSecondMatrix) {
         "Размеры матриц некорректны"
     }
-    val resultMatrix = Array(rawAmountOfFirstMatrix) { IntArray(columnAmountOfSecondMatrix) }
+    val resultMatrix = Array(rowAmountOfFirstMatrix) { IntArray(columnAmountOfSecondMatrix) }
 
     for (i in firstMatrix.indices) {
         for (j in secondMatrix[0].indices) {
@@ -42,27 +42,25 @@ fun multiplyMatricesInOneThread(firstMatrix: Array<IntArray>, secondMatrix: Arra
 }
 
 fun multiplyMatricesWithCoroutines(firstMatrix: Array<IntArray>, secondMatrix: Array<IntArray>): Array<IntArray> {
-    val rawAmountOfFirstMatrix = firstMatrix.size
+    val rowAmountOfFirstMatrix = firstMatrix.size
     val columnAmountOfFirstMatrix = firstMatrix[0].size
-    val rawAmountOfSecondMatrix = secondMatrix.size
+    val rowAmountOfSecondMatrix = secondMatrix.size
     val columnAmountOfSecondMatrix = secondMatrix[0].size
-    require(columnAmountOfFirstMatrix == rawAmountOfSecondMatrix) {
+    require(columnAmountOfFirstMatrix == rowAmountOfSecondMatrix) {
         "Размеры матриц некорректны"
     }
-    val resultMatrix = Array(rawAmountOfFirstMatrix) { IntArray(columnAmountOfSecondMatrix) }
+    val resultMatrix = Array(rowAmountOfFirstMatrix) { IntArray(columnAmountOfSecondMatrix) }
     val jobList = mutableListOf<Job>()
     runBlocking {
-        for (i in 0 until rawAmountOfFirstMatrix) {
+        for (i in 0 until rowAmountOfFirstMatrix) {
             for (j in 0 until columnAmountOfSecondMatrix) {
-                jobList.add(
-                    launch(Dispatchers.Default) {
-                        var resultToReturn = 0
-                        for (k in secondMatrix.indices) {
-                            resultToReturn += firstMatrix[i][k] * secondMatrix[k][j]
-                        }
-                        resultMatrix[i][j] = resultToReturn
+                jobList.add(launch(Dispatchers.Default) {
+                    var resultToReturn = 0
+                    for (k in secondMatrix.indices) {
+                        resultToReturn += firstMatrix[i][k] * secondMatrix[k][j]
                     }
-                )
+                    resultMatrix[i][j] = resultToReturn
+                })
             }
         }
 
@@ -73,7 +71,7 @@ fun multiplyMatricesWithCoroutines(firstMatrix: Array<IntArray>, secondMatrix: A
     return resultMatrix
 }
 
-fun generateMatrix(raws: Int, columns: Int) = Array<IntArray>(raws) {
+fun generateMatrix(rows: Int, columns: Int) = Array<IntArray>(rows) {
     IntArray(columns) {
         kotlin.random.Random.nextInt(RANGE_START, RANGE_END)
     }
