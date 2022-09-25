@@ -13,6 +13,7 @@ object DrawPlot {
             size = 2.0
         ) { x = "coroutines"; y = "milliseconds" }
     }
+
     fun createPlotElementsTimes(data: Map<String, Any>): Plot {
         return letsPlot(data) + geomPoint(
             color = "red",

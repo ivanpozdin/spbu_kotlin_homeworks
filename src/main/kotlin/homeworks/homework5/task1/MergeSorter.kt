@@ -36,13 +36,11 @@ object MergeSorter {
             }
             job1.await()
             job2.await()
-
         } else {
             mergeSort(array, begin, mid, coroutinesAmount - 2)
             mergeSort(array, mid + 1, end, coroutinesAmount - 2)
         }
         merge(array, begin, mid, end)
-
     }
 
     private fun merge(array: IntArray, begin: Int, mid: Int, end: Int) {
@@ -71,7 +69,6 @@ object MergeSorter {
             array[t] = temp[t - begin]
         }
     }
-
 }
 
 object SortAndDraw {
