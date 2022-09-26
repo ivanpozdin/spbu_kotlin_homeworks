@@ -12,13 +12,17 @@ internal class MergeSorterTest {
         fun mergeSortTestInputData() = mutableListOf(
             Arguments.of(
                 IntArray(1000) { it + 1 }, IntArray(1000) { 1000 - it }, 0
-            ), Arguments.of(
+            ),
+            Arguments.of(
                 IntArray(1000) { it + 1 }, IntArray(1000) { 1000 - it }, 2
-            ), Arguments.of(
+            ),
+            Arguments.of(
                 IntArray(1000) { it + 1 }, IntArray(1000) { 1000 - it }, 4
-            ), Arguments.of(
+            ),
+            Arguments.of(
                 IntArray(1000) { it + 1 }, IntArray(1000) { 1000 - it }, 15
-            ), Arguments.of(
+            ),
+            Arguments.of(
                 IntArray(9999) { it + 1 }, IntArray(9999) { 9999 - it }, 15
             )
         ) + MutableList(15) {

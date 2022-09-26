@@ -4,14 +4,15 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
-import java.util.*
+import kotlin.system.measureNanoTime
 import kotlin.system.measureTimeMillis
 
 const val MIN_THRESHOLD = 128
 
-object MergeSorter {
+const val RANGE = 1000
 
-    fun getSortTime(array: IntArray, maxAmountOfCoroutines: Int) = measureTimeMillis {
+object MergeSorter {
+    fun getSortTime(array: IntArray, maxAmountOfCoroutines: Int) = measureNanoTime {
         mergeSortWithCoroutines(array, maxAmountOfCoroutines)
     }
 
@@ -51,18 +52,25 @@ object MergeSorter {
 
         while (i <= mid && j <= end) {
             if (array[i] <= array[j]) {
-                temp[k++] = array[i++]
+                temp[k] = array[i]
+                i++
             } else {
-                temp[k++] = array[j++]
+                temp[k] = array[j]
+                j++
             }
+            k++
         }
 
         while (i <= mid) {
-            temp[k++] = array[i++]
+            temp[k] = array[i]
+            k++
+            i++
         }
 
         while (j <= end) {
-            temp[k++] = array[j++]
+            temp[k] = array[j]
+            k++
+            j++
         }
 
         for (t in begin..end) {
@@ -71,36 +79,54 @@ object MergeSorter {
     }
 }
 
-object SortAndDraw {
-    @JvmStatic
-    fun getDataForPlotCoroutinesTime(maxAmountOfThreads: Int, size: Int): Map<String, Any> {
-        val list = IntArray(size) { Random().nextInt(size + (size - 1)) - (size - 1) }
-        val listOfXs = mutableListOf<Int>()
-        val listOfYs = mutableListOf<Long>()
-        var threadAmount = 0
-        val arr0 = list.copyOf()
-        listOfXs.add(0)
-        listOfYs.add(MergeSorter.getSortTime(arr0, threadAmount++))
-        while (threadAmount <= maxAmountOfThreads) {
-            val arr = list.copyOf()
-            listOfXs.add(threadAmount)
-            listOfYs.add(MergeSorter.getSortTime(arr, threadAmount))
-            threadAmount *= 2
+object DataPreparationForGraphs {
+    private fun getAverageDataForExperiments(amountOfCoroutines: Int, sizeOfArray: Int, repetitions: Int): Long {
+        var timeSum: Long = 0
+        repeat(repetitions) {
+            timeSum += MergeSorter.getSortTime(generateRandomArray(sizeOfArray), amountOfCoroutines)
         }
-        return mapOf<String, Any>("coroutines" to listOfXs, "milliseconds" to listOfYs)
+        return ((timeSum * 1.0) / repetitions.toDouble()).toLong()
     }
 
+    private fun generateRandomArray(size: Int): IntArray {
+        return IntArray(size) { kotlin.random.Random.nextInt(-RANGE, RANGE) }
+    }
+
+    /**
+     * Функция готовит данные для создания графика зависимости времени от количества корутин при фиксированном размере
+     * массива.
+     */
     @JvmStatic
-    fun getDataForPlotElementsTime(amountOfThreads: Int, maxSize: Int): Map<String, Any> {
+    fun getDataForPlotCoroutinesTime(maxAmountOfCoroutines: Int, size: Int, repetitionsAmount: Int): Map<String, Any> {
         val listOfXs = mutableListOf<Int>()
         val listOfYs = mutableListOf<Long>()
-        var size = 1
-        while (size <= maxSize) {
-            val list = IntArray(size) { Random().nextInt(size + (size - 1)) - (size - 1) }
-            listOfXs.add(size)
-            listOfYs.add(MergeSorter.getSortTime(list, amountOfThreads))
-            size *= 2
+        var coroutinesAmount = 0
+        while (coroutinesAmount <= maxAmountOfCoroutines) {
+            listOfXs.add(coroutinesAmount)
+            listOfYs.add(getAverageDataForExperiments(coroutinesAmount, size, repetitionsAmount))
+            if (coroutinesAmount == 0) {
+                coroutinesAmount++
+            } else {
+                coroutinesAmount *= 2
+            }
         }
-        return mapOf<String, Any>("elements" to listOfXs, "milliseconds" to listOfYs)
+        return mapOf<String, Any>("coroutines" to listOfXs, "nanoseconds" to listOfYs)
+    }
+
+    /**
+     * Функция готовит данные для создания графика зависимости времени от размера массива при фиксированном количестве
+     * корутин.
+     */
+    @JvmStatic
+    fun getDataForPlotSizeTime(amountOfCoroutines: Int, maxSize: Int, repetitionsAmount: Int): Map<String, Any> {
+        val listOfXs = mutableListOf<Int>()
+        val listOfYs = mutableListOf<Long>()
+        var arraySize = 1
+        while (arraySize <= maxSize) {
+            listOfXs.add(arraySize)
+            listOfYs.add(getAverageDataForExperiments(amountOfCoroutines, arraySize, repetitionsAmount))
+            arraySize *= 2
+        }
+        return mapOf<String, Any>("elements" to listOfXs, "nanoseconds" to listOfYs)
     }
 }

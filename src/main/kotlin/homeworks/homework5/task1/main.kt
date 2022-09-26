@@ -10,10 +10,12 @@ fun main() {
     val maxAmountOfCoroutines: Int = readLine()?.toInt() ?: 1
     print("Введите размер массива: ")
     val amountOfElements: Int = readLine()?.toInt() ?: 1
+    print("Введите кол-во повторений эксперемента для каждого набора данных: ")
+    var repetitionsAmount: Int = readLine()?.toInt() ?: 1
     println("График можно посмотреть в открывшемся браузере.")
     val plotFirst = DrawPlot.createPlotCoroutinesTimes(
-        SortAndDraw.getDataForPlotCoroutinesTime(
-            maxAmountOfCoroutines, amountOfElements
+        DataPreparationForGraphs.getDataForPlotCoroutinesTime(
+            maxAmountOfCoroutines, amountOfElements, repetitionsAmount
         )
     )
     val contentFirst = PlotSvgExport.buildSvgImageFromRawSpecs(plotFirst.toSpec())
@@ -22,13 +24,15 @@ fun main() {
     println()
 
     println("Вторым будет график зависмости времени от размера массива при фиксированном количестве корутин.")
-    print("Введите число потоков: ")
+    print("Введите число корутин: ")
     val amountOfCoroutines: Int = readLine()?.toInt() ?: 1
     print("Введите максимальное число элементов в массиве: ")
     val maxAmountOfElements: Int = readLine()?.toInt() ?: 1
+    print("Введите кол-во повторений эксперемента для каждого набора данных: ")
+    repetitionsAmount = readLine()?.toInt() ?: 1
     println("График можно посмотреть в открывшемся браузере.")
     val plotSecond = DrawPlot.createPlotElementsTimes(
-        SortAndDraw.getDataForPlotElementsTime(amountOfCoroutines, maxAmountOfElements)
+        DataPreparationForGraphs.getDataForPlotSizeTime(amountOfCoroutines, maxAmountOfElements, repetitionsAmount)
     )
     val contentSecond = PlotSvgExport.buildSvgImageFromRawSpecs(plotSecond.toSpec())
     DrawPlot.openInBrowser(contentSecond, "secondPlot")
