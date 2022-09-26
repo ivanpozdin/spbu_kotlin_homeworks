@@ -21,9 +21,9 @@ internal class MainKtTest {
 
     @Test
     fun multiplyMatricesWithCoroutines() {
-        val rowsAmountMatrix1 = Random.nextInt(1, 2000)
-        val columnAmountMatrix2 = Random.nextInt(1, 2000)
-        val columnAmountMatrix1 = Random.nextInt(1, 2000)
+        val rowsAmountMatrix1 = Random.nextInt(1, 500)
+        val columnAmountMatrix2 = Random.nextInt(1, 500)
+        val columnAmountMatrix1 = Random.nextInt(1, 500)
 
         val matrix1 = generateMatrix(rowsAmountMatrix1, columnAmountMatrix1)
         val matrix2 = generateMatrix(columnAmountMatrix1, columnAmountMatrix2)
