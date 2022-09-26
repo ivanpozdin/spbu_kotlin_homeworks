@@ -22,7 +22,7 @@ internal class MergeSorterTest {
                 IntArray(9999) { it + 1 }, IntArray(9999) { 9999 - it }, 15
             )
         ) + MutableList(15) {
-            val array = IntArray(Random.nextInt(1, 1000000)) { Random.nextInt(-1000, 1000) }
+            val array = IntArray(Random.nextInt(1, 100000)) { Random.nextInt(-1000, 1000) }
             val arrayForStdSort = array.copyOf()
             val coroutinesAmount = Random.nextInt(0, 2048)
             arrayForStdSort.sort()
