@@ -1,57 +1,49 @@
 package homeworks.homework4.task1
 
-import java.util.Random
 import kotlin.system.measureNanoTime
 
+const val MIN_THRESHOLD = 128
+
+const val RANGE = 1000
+
+/**
+ * В объекте содержатся функции, позволяющие отсортировать массив с помощью многопоточной merge sort
+ * и измерить время сортировки.
+ */
 object MergeSorter {
-    private class SortThreads(array: IntArray, begin: Int, end: Int) :
-        Thread(Runnable { mergeSort(array, begin, end) }) {
-        init {
-            start()
-        }
+    /**
+     * Функция измеряет время на сортировку данного массива.
+     */
+    fun getSortTime(array: IntArray, maxAmountOfThreads: Int) = measureNanoTime {
+        mergeSort(array, maxAmountOfThreads)
     }
 
-    private fun mergeSort(array: IntArray, begin: Int, end: Int) {
-        if (begin < end) {
-            val mid = (begin + end) / 2
-            mergeSort(array, begin, mid)
-            mergeSort(array, mid + 1, end)
-            merge(array, begin, mid, end)
-        }
-    }
-
-    fun threadedSort(array: IntArray, maxAmountOfThreads: Int) = measureNanoTime {
-        val exact = array.size % maxAmountOfThreads == 0
-        var maxLim = if (exact) array.size / maxAmountOfThreads else array.size / (maxAmountOfThreads - 1)
-
-        maxLim = if (maxLim < maxAmountOfThreads) maxAmountOfThreads else maxLim
-        val threads = ArrayList<SortThreads>()
-
-        var i = 0
-        while (i < array.size) {
-            val beg = i
-            val remain = array.size - i
-            val end = if (remain < maxLim) i + (remain - 1) else i + (maxLim - 1)
-            val t = SortThreads(array, beg, end)
-            threads.add(t)
-            i += maxLim
+    /**
+     * Функция сортируют данный массив, используя не больше данного количества потоков.
+     */
+    fun mergeSort(array: IntArray, threadsRemains: Int, begin: Int = 0, end: Int = array.lastIndex) {
+        if (end - begin < 1) {
+            return
         }
 
-        for (t in threads) {
-            try {
-                t.join()
-            } catch (ignored: InterruptedException) {
+        val threadsAmount = threadsRemains - threadsRemains % 2
+        val mid = (begin + end) / 2
+        if (threadsAmount >= 2 && end - begin > MIN_THRESHOLD) {
+            val thread1 = Thread {
+                mergeSort(array, threadsRemains - 2, begin, mid)
             }
+            val thread2 = Thread {
+                mergeSort(array, threadsRemains - 2, mid + 1, end)
+            }
+            thread1.start()
+            thread2.start()
+            thread1.join()
+            thread2.join()
+        } else {
+            mergeSort(array, threadsAmount - 2, begin, mid)
+            mergeSort(array, threadsAmount - 2, mid + 1, end)
         }
-
-        i = 0
-        while (i < array.size) {
-            val mid = if (i == 0) 0 else i - 1
-            val remain = array.size - i
-            val end = if (remain < maxLim) i + (remain - 1) else i + (maxLim - 1)
-            merge(array, 0, mid, end)
-            i += maxLim
-        }
+        merge(array, begin, mid, end)
     }
 
     private fun merge(array: IntArray, begin: Int, mid: Int, end: Int) {
@@ -63,24 +55,24 @@ object MergeSorter {
         while (i <= mid && j <= end) {
             if (array[i] <= array[j]) {
                 temp[k] = array[i]
-                i += 1
+                i++
             } else {
                 temp[k] = array[j]
-                j += 1
+                j++
             }
-            k += 1
+            k++
         }
 
         while (i <= mid) {
             temp[k] = array[i]
-            i += 1
-            k += 1
+            k++
+            i++
         }
 
         while (j <= end) {
             temp[k] = array[j]
-            j += 1
-            k += 1
+            k++
+            j++
         }
 
         for (t in begin..end) {
@@ -89,31 +81,57 @@ object MergeSorter {
     }
 }
 
-object SortAndDraw {
-    @JvmStatic
-    fun getDataForPlotThreadsMicroseconds(maxAmountOfThreads: Int, size: Int): Map<String, Any> {
-        val list = IntArray(size) { Random().nextInt(size + (size - 1)) - (size - 1) }
-        val listOfXs = mutableListOf<Int>()
-        val listOfYs = mutableListOf<Long>()
-        for (i in 1..maxAmountOfThreads) {
-            val arr = list.copyOf()
-            listOfXs.add(i)
-            listOfYs.add(MergeSorter.threadedSort(arr, i))
+/**
+ * Функции объекта подготавливают данные для создания графиков зависимости времени сортировки от разных параметров.
+ */
+object DataPreparationForGraphs {
+    private fun getAverageDataForExperiments(amountOfThreads: Int, sizeOfArray: Int, repetitions: Int): Long {
+        var timeSum: Long = 0
+        repeat(repetitions) {
+            timeSum += MergeSorter.getSortTime(generateRandomArray(sizeOfArray), amountOfThreads)
         }
-        return mapOf<String, Any>("threads" to listOfXs, "microseconds" to listOfYs)
+        return ((timeSum * 1.0) / repetitions.toDouble()).toLong()
     }
 
+    private fun generateRandomArray(size: Int): IntArray {
+        return IntArray(size) { kotlin.random.Random.nextInt(-RANGE, RANGE) }
+    }
+
+    /**
+     * Функция готовит данные для создания графика зависимости времени от количества потоков при фиксированном размере
+     * массива.
+     */
     @JvmStatic
-    fun getDataForPlotElementsMicroseconds(amountOfThreads: Int, maxSize: Int): Map<String, Any> {
+    fun getDataForPlotThreadsTime(maxAmountOfThreads: Int, size: Int, repetitionsAmount: Int): Map<String, Any> {
         val listOfXs = mutableListOf<Int>()
         val listOfYs = mutableListOf<Long>()
-        for (size in 1..maxSize) {
-            val list = IntArray(size) { Random().nextInt(size + (size - 1)) - (size - 1) }
-            for (i in 0 until size) {
-                listOfXs.add(i)
-                listOfYs.add(MergeSorter.threadedSort(list, amountOfThreads))
+        var threadsAmount = 0
+        while (threadsAmount <= maxAmountOfThreads) {
+            listOfXs.add(threadsAmount)
+            listOfYs.add(getAverageDataForExperiments(threadsAmount, size, repetitionsAmount))
+            if (threadsAmount == 0) {
+                threadsAmount++
+            } else {
+                threadsAmount *= 2
             }
         }
-        return mapOf<String, Any>("elements" to listOfXs, "microseconds" to listOfYs)
+        return mapOf<String, Any>("threads" to listOfXs, "nanoseconds" to listOfYs)
+    }
+
+    /**
+     * Функция готовит данные для создания графика зависимости времени от размера массива при фиксированном количестве
+     * потоков.
+     */
+    @JvmStatic
+    fun getDataForPlotSizeTime(amountOfThreads: Int, maxSize: Int, repetitionsAmount: Int): Map<String, Any> {
+        val listOfXs = mutableListOf<Int>()
+        val listOfYs = mutableListOf<Long>()
+        var arraySize = 1
+        while (arraySize <= maxSize) {
+            listOfXs.add(arraySize)
+            listOfYs.add(getAverageDataForExperiments(amountOfThreads, arraySize, repetitionsAmount))
+            arraySize *= 2
+        }
+        return mapOf<String, Any>("elements" to listOfXs, "nanoseconds" to listOfYs)
     }
 }

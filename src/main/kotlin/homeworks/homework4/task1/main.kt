@@ -10,10 +10,12 @@ fun main() {
     val maxAmountOfThreads: Int = readLine()?.toInt() ?: 1
     print("Введите размер массива: ")
     val amountOfElements: Int = readLine()?.toInt() ?: 1
+    print("Введите кол-во повторений эксперемента для каждого набора данных: ")
+    var repetitionsAmount: Int = readLine()?.toInt() ?: 1
     println("График можно посмотреть в открывшемся браузере.")
     val plotFirst = DrawPlot.createPlotThreadsTimes(
-        SortAndDraw.getDataForPlotThreadsMicroseconds(
-            maxAmountOfThreads, amountOfElements
+        DataPreparationForGraphs.getDataForPlotThreadsTime(
+            maxAmountOfThreads, amountOfElements, repetitionsAmount
         )
     )
     val contentFirst = PlotSvgExport.buildSvgImageFromRawSpecs(plotFirst.toSpec())
@@ -26,9 +28,11 @@ fun main() {
     val amountOfThreads: Int = readLine()?.toInt() ?: 1
     print("Введите максимальное число элементов в массиве: ")
     val maxAmountOfElements: Int = readLine()?.toInt() ?: 1
+    print("Введите кол-во повторений эксперемента для каждого набора данных: ")
+    repetitionsAmount = readLine()?.toInt() ?: 1
     println("График можно посмотреть в открывшемся браузере.")
     val plotSecond = DrawPlot.createPlotElementsTimes(
-        SortAndDraw.getDataForPlotElementsMicroseconds(amountOfThreads, maxAmountOfElements)
+        DataPreparationForGraphs.getDataForPlotSizeTime(amountOfThreads, maxAmountOfElements, repetitionsAmount)
     )
     val contentSecond = PlotSvgExport.buildSvgImageFromRawSpecs(plotSecond.toSpec())
     DrawPlot.openInBrowser(contentSecond, "secondPlot")
