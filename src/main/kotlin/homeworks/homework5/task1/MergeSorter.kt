@@ -5,7 +5,6 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
 import kotlin.system.measureNanoTime
-import kotlin.system.measureTimeMillis
 
 const val MIN_THRESHOLD = 128
 
@@ -16,7 +15,7 @@ object MergeSorter {
         mergeSortWithCoroutines(array, maxAmountOfCoroutines)
     }
 
-    fun mergeSortWithCoroutines(array: IntArray, maxAmountOfCoroutines: Int) = measureTimeMillis {
+    fun mergeSortWithCoroutines(array: IntArray, maxAmountOfCoroutines: Int) {
         runBlocking { mergeSort(array, 0, array.lastIndex, maxAmountOfCoroutines) }
     }
 
