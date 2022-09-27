@@ -12,11 +12,12 @@ repositories {
 }
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:1.6.10")
-    implementation("org.junit.jupiter:junit-jupiter:5.8.2")
-    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.20.0")
-    testImplementation(platform("org.junit:junit-bom:5.8.2"))
-    testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
+    implementation("org.junit.jupiter:junit-jupiter:5.9.0")
+    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.21.0")
+    testImplementation(platform("org.junit:junit-bom:5.9.0"))
+    testImplementation("org.junit.jupiter:junit-jupiter:5.9.0")
     testImplementation("org.jetbrains.kotlin:kotlin-test:1.6.10")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
     implementation("org.jetbrains.lets-plot:lets-plot-common:2.3.0")
     implementation("org.jetbrains.lets-plot:lets-plot-kotlin-jvm:3.2.0")
     implementation("org.jetbrains.lets-plot:lets-plot-image-export:2.3.0")
