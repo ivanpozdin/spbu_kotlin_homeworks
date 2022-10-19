@@ -10,7 +10,7 @@ fun main() {
     val maxAmountOfThreads: Int = readLine()?.toInt() ?: 1
     print("Введите размер массива: ")
     val amountOfElements: Int = readLine()?.toInt() ?: 1
-    print("Введите кол-во повторений эксперемента для каждого набора данных: ")
+    print("Введите кол-во повторений эксперимента для каждого набора данных: ")
     var repetitionsAmount: Int = readLine()?.toInt() ?: 1
     println("График можно посмотреть в открывшемся браузере.")
     val plotFirst = DrawPlot.createPlotThreadsTimes(
