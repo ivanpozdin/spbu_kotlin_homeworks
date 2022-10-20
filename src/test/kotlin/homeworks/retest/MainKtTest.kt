@@ -1,5 +1,5 @@
-import homeworks.retest.unZip
-import homeworks.retest.zip
+package homeworks.retest
+
 import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.params.ParameterizedTest
