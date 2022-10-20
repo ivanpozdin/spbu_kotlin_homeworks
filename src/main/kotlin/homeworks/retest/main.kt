@@ -2,6 +2,7 @@ package homeworks.retest
 
 const val MAX_INDEX = 126
 const val EXAMPLE_SIZE = 16
+
 fun ByteArray.zip(): ByteArray {
     val zippedListOfBytes = mutableListOf<Byte>()
     var counter = 0
