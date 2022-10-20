@@ -3,6 +3,11 @@ package homeworks.retest
 const val MAX_INDEX = UByte.MAX_VALUE
 const val EXAMPLE_SIZE = 16
 
+/**
+ * Функция сжимает данный ByteArra так,
+ * что на чётных местах в новом массиве стоят кол-во повторений следующего элемента.
+ * A на нечётных соответственно сам повторяющийся Byte(кол-во повторений может быть и 1).
+ */
 fun ByteArray.zip(): ByteArray {
     val zippedListOfBytes = mutableListOf<Byte>()
     var counter: UByte = 0u
@@ -23,6 +28,9 @@ fun ByteArray.zip(): ByteArray {
     return zippedListOfBytes.toByteArray()
 }
 
+/**
+ * Фукция распаковывает сжатый функцией zip() массив в исходный.
+ */
 fun ByteArray.unZip(): ByteArray {
     val unZippedListOfBytes = mutableListOf<Byte>()
     for (index in this.indices step 2) {
