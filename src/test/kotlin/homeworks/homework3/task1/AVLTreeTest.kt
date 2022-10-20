@@ -1,4 +1,5 @@
-import homeworks.homework3.task1.AVLTree
+package homeworks.homework3.task1
+
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
